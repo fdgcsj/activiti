@@ -67,9 +67,7 @@ public class Leave implements Serializable {
         return BusinessStatusEnum.getEumByCode(this.status).getDesc();
     }
 
-    public String
-
-    getStartDateStr() {
+    public String getStartDateStr() {
         if (startDate == null) {
             return "";
         }
@@ -83,9 +81,7 @@ public class Leave implements Serializable {
         return DateUtils.format(endDate);
     }
 
-    public String
-
-    getCreateDateStr() {
+    public String getCreateDateStr() {
         if (createDate == null) {
             return "";
         }
