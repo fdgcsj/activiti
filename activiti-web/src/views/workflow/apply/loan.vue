@@ -111,8 +111,8 @@ export default {
         },
         async fetchData(){
             const {data}=await api.getList(this.query,this.page.current,this.page.size)
-            this.list=data.data.records
-            this.page.total=data.data.total
+            this.list=data.records
+            this.page.total=data.total
 
         },
         // 页数
@@ -158,7 +158,7 @@ export default {
             this.row=row
             this.$refs.cancelRef.visible=true
         },
-        //提交申请 
+        //提交申请
         clickSubmitApply(row){
             this.row=row
             this.$refs.sumbitApplyRef.visible=true
