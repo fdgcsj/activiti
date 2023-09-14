@@ -1,5 +1,6 @@
 package org.fosu.workflow.service;
 
+import org.fosu.workflow.req.CompleteBackTaskREQ;
 import org.fosu.workflow.req.TaskCompleteREQ;
 import org.fosu.workflow.req.TaskREQ;
 import org.fosu.workflow.utils.Result;
@@ -10,4 +11,6 @@ public interface WaitTaskService {
     Map<String, Object> findWaitTask(TaskREQ req);
     Result getNextNodeInfo(String taskId);
     Result completeTask(TaskCompleteREQ req);
+    Result backTask(String taskId);
+    Result completebackTask(CompleteBackTaskREQ req);
 }
