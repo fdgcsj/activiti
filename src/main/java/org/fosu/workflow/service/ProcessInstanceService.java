@@ -1,5 +1,6 @@
 package org.fosu.workflow.service;
 
+import org.fosu.workflow.req.StartREQ;
 import org.fosu.workflow.utils.Result;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,4 +19,12 @@ public interface ProcessInstanceService {
      * @param response 浏览器相应类
      */
     void getHistoryProcessImage(String procInstId, HttpServletResponse response);
+
+    Result startProcess(StartREQ req);
+
+    Result cancel(String businessKey, String procInstId, String message);
+
+    Result getHistoryInfoList(String procInstId);
+
+
 }

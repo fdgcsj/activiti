@@ -29,4 +29,5 @@ public interface BusinessStatusService extends IService<BusinessStatus> {
      * @return 封装数据实体类
      */
     Result updateState(String businessKey, BusinessStatusEnum statusEnum);
+
 }

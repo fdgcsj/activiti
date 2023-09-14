@@ -3,6 +3,7 @@ package org.fosu.workflow.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.fosu.workflow.req.StartREQ;
 import org.fosu.workflow.service.ProcessInstanceService;
 import org.fosu.workflow.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,27 @@ public class ProcessInstanceController {
     @GetMapping("/history/image")
     public void getHistoryProcessImage(@RequestParam String procInstId, HttpServletResponse response) {
         processInstanceService.getHistoryProcessImage(procInstId, response);
+    }
+
+    @ApiOperation(value = "提交申请，启动流程实例")
+    @PostMapping("/start")
+    public Result start(@RequestBody StartREQ req) {
+        return processInstanceService.startProcess(req);
+    }
+
+    @ApiOperation("撤回申请")
+    @DeleteMapping("/cancel/apply")
+    public Result cancelApply(@RequestParam String businessKey,
+                              @RequestParam String procInstId,
+                              @RequestParam(defaultValue = "撤回成功")
+                              String message) {
+        return processInstanceService.cancel(businessKey, procInstId,
+                message);
+    }
+
+    @ApiOperation("根据流程实例ID查询审批历史记录")
+    @GetMapping("/history/list")
+    public Result historyInfoList(@RequestParam String procInstId) {
+        return processInstanceService.getHistoryInfoList(procInstId);
     }
 }
