@@ -1,6 +1,5 @@
 package org.fosu.workflow.service;
 
-import org.fosu.workflow.req.CompleteBackTaskREQ;
 import org.fosu.workflow.req.TaskCompleteREQ;
 import org.fosu.workflow.req.TaskREQ;
 import org.fosu.workflow.utils.Result;
