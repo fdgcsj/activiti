@@ -1,6 +1,6 @@
 <template>
     <div class="app-container">
-             <!-- 条件查询 -->        
+           <!-- 条件查询 -->        
         <el-form :inline="true" :model="query" size="mini">
             <el-form-item label="任务名称:">
                 <el-input v-model.trim="query.taskName" ></el-input>
@@ -10,7 +10,7 @@
                 <el-button icon="el-icon-refresh"  @click="reload">重置</el-button>
             </el-form-item>
         </el-form>
-        <!-- stripe 带斑马纹 -->
+          <!-- stripe 带斑马纹 -->
         <el-table :data="list" stripe border style="width: 100%">
             <el-table-column align="center" type="index" label="序号" width="50"></el-table-column>
             <el-table-column align="center" prop="taskName" label="任务名称" min-width="160"></el-table-column>
@@ -45,53 +45,87 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="page.total">
         </el-pagination>
-       <!-- 审批 -->
-        <verify ref="verifyRef"  :selectdata="selectdata" v-if="selectdata.length" :taskId="row.taskId"></verify>
-         <!-- 转办 -->
-        <turn ref="turnRef" :selectdata="selectdata" v-if="selectdata.length" :taskId="row.taskId"></turn>
-         <!-- 驳回 -->
-        <back ref="backRef" :selectdata="selectdata" v-if="selectdata.length" :task="row"></back>
-         <!-- 审批历史 -->
+           <!-- 审批历史 -->
         <history ref="historyRef" :businessKey="row.businessKey" :processInstanceId="row.processInstanceId" ></history>
+        <!-- 通过 -->
+        <verify ref="verifyRef" :taskId="row.taskId" v-if="selectdata.length" :selectdata="selectdata"></verify>
+        <!-- 转办 -->
+        <turn ref="turnRef" :taskId="row.taskId" v-if="selectdata.length" :selectdata="selectdata"></turn>
+        <!-- 驳回 -->
+        <back ref="backRef" :task="row" v-if="selectdata.length" :selectdata="selectdata"></back>
     </div>
 </template>
 <script>
 import api from "@/api/task";
-import Verify from "./components/Verify";
-import Turn from "./components/Turn";
 import History from '@/components/Process/History'
-import Back from './components/Back'
+import Verify from "./components/Verify.vue"
+import Turn from "./components/Turn.vue"
+import Back from "./components/Back.vue"
 import {getall} from '@/api/getuser'
 export default {
-    name:'Await',
-    components:{Verify,History,Turn,Back},
-    data(){
-        return{
-            list:[],
-            page:{
-                current:1,
-                size:10,
-                total:0,
+    name: 'Await', // 和对应路由表中配置的name值一致
+     components: {History,Verify,Turn,Back},
+    data() {
+       return {
+            list: [
+                {
+                    "taskId":"62509",
+                    "taskName":"总经理审批",
+                    "processName":"请假",
+                    "version":3,
+                    "proposer":"小梦",
+                    "processStatus": "已暂停",
+                    "taskCreateTime":"2020-01-24 17:07:16",
+                    "updateDate":"2021-04-15 15:37:36"
+                },
+                {
+                "taskId":"60011",
+                "taskName":"人事审批",
+                "processName":"休假",
+                "version": 3,
+                "proposer":"小学",
+                "processStatus": "已启动",
+                "taskCreateTime":"2020-12-24 11:07:10",
+                "updateDate":"2021-08-15 15:30:36"
+                },
+            ],
+           page: {
+                current: 1,
+                size: 10,
+                total: 0
             },
             query:{},
             row:{},
             selectdata:[],
-        }
+       }
     },
-    created(){
-        this.fetchData()
-        this.getelect()
+    created() {
+       this.fetchData()
+       this.getelect()
     },
-    methods:{
+    methods: {
         getelect(){
             getall().then((res)=>{
                 this.selectdata=res.data
             })
         },
-       async fetchData(){
+        async fetchData(){
             const {data}=await api.getWaitTaskList(this.query,this.page.current,this.page.size)
             this.list=data.records
             this.page.total=data.total
+        },
+         // 条件查询方法
+        queryData() {
+            this.page.current = 1
+            this.fetchData()
+        },
+
+        // 刷新重置
+        reload() {
+            this.query = {}
+            this.page.current=1
+            this.page.size=10
+            this.fetchData()
         },
         // 当每页显示多少条改变后触发
         handleSizeChange(val) {
@@ -103,17 +137,7 @@ export default {
             this.page.current = val
             this.fetchData()
         },
-        // 条件查询方法
-        queryData() {
-            this.page.current = 1
-            this.fetchData()
-        },
-        // 刷新重置
-        reload() {
-            this.query = {}
-            this.fetchData()
-        },
-       // 点击通过
+      // 点击通过
         clickComplete(row) {
             if (this.checkProcessTask(row)) {
                 this.$refs.verifyRef.visible = true

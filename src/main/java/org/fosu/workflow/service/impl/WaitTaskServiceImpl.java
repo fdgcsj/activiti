@@ -234,8 +234,8 @@ public class WaitTaskServiceImpl implements WaitTaskService {
         }
         System.out.println(task);
         String procInstId = task.getProcessInstanceId();
-/*        // 2. 指定任务审批意见
-        taskService.addComment(taskId, procInstId, req.getMessage());*/
+        // 2. 指定任务审批意见
+//        taskService.addComment(taskId, procInstId, req.getMessage());
         // 3.完成任务
         taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskId).build());
         // 4.查询下一个任务
@@ -251,7 +251,7 @@ public class WaitTaskServiceImpl implements WaitTaskService {
             // 2.更新业务状态
             return businessStatusService.updateState(historicProcessInstance.getBusinessKey(), BusinessStatusEnum.FINISH);
         }
-        else {
+       /* else {
             // 有下一个人工任务
 //            Map<String, String> assigneeMap = req.getAssigneeMap();
             if (assigner == null) {
@@ -276,7 +276,7 @@ public class WaitTaskServiceImpl implements WaitTaskService {
                     taskService.setAssignee(t.getId(), assigner);
                 }
             }
-        }
+        }*/
         return Result.ok();
     }
 

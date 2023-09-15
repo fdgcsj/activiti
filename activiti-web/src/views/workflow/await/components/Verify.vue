@@ -60,7 +60,6 @@ export default {
         async visible(newVal) {
             if(newVal) {
                 try{
-                    console.log(this.selectlist);
                     this.loading = true
                     // 获取下一节点信息
                     const {data} = await api.getNextNodeInfo(this.taskId)

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 export default {
-
+    
     // 查询个人待办任务列表
     getWaitTaskList(data, current, size) {
         return request({
@@ -47,7 +47,7 @@ export default {
             params
         })
     },
-
+    
     // 获取下一节点信息
     getNextNodeInfo(taskId) {
         return request({
@@ -67,11 +67,11 @@ export default {
     },
 
     // 任务驳回指定节点
-    backTask(data) {
+    backTask(params) {
         return request({
             url: '/task/back',
             method: 'post',
-          data,
+            params,
         })
     }
 

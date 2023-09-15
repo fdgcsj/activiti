@@ -10,7 +10,7 @@
                 <el-button icon="el-icon-refresh"  @click="reload">重置</el-button>
             </el-form-item>
         </el-form>
-                <!-- stripe 带斑马纹 -->
+         <!-- stripe 带斑马纹 -->
         <el-table :data="list" stripe border style="width: 100%">
             <el-table-column align="center" type="index" label="序号" width="50"></el-table-column>
             <el-table-column align="center" prop="taskName" label="任务名称" min-width="160"></el-table-column>
@@ -38,56 +38,42 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="page.total">
         </el-pagination>
-           <!-- 审批历史 -->
+          <!-- 审批历史 -->
         <history ref="historyRef" :businessKey="row.businessKey" :processInstanceId="row.processInstanceId" ></history>
     </div>
 </template>
 <script>
-import api from '@/api/task'
 import History from '@/components/Process/History'
+import api from "@/api/task";
 export default {
     name: 'Complete', // 和对应路由表中配置的name值一致
-    components:{History},
+    components: {History},
     data() {
        return {
-            list: [
-              {
-                "taskId":"leave2:3:62509",
-                "taskName":"总经理审批",
-                "processName":"请假",
-                "version":3,
-                "proposer":"小梦",
-                "taskStartTime":"2020-01-24 17:07:16",
-                "taskEndTime":"2021-04-15 15:37:36"
-              },
-              {
-                    "taskId":"test:1:60011",
-                    "taskName":"人事审批",
-                    "processName":"休假",
-                    "version": 3,
-                    "proposer":"小学",
-                    "taskStartTime":"2020-12-24 11:07:10",
-                    "taskEndTime":"2021-08-15 15:30:36"
-                },
-            ],
-            page: {
-                current: 1,
-                size: 10,
-                total: 0
-            },
-            query:{},
-            row:{},
+           list:[],
+           page:{
+            current:1,
+            size:10,
+            total:0,
+           },
+           query:{},
+           row:{},
        }
     },
     created() {
-        this.fetchData()
+       this.fetchData()
     },
     methods: {
-        // 分页条件查询
-        async fetchData() {
-            const { data } = await api.getCompleteTaskList(this.query, this.page.current, this.page.size)
-            this.list = data.records
-            this.page.total = data.total
+        async fetchData(){
+            const {data}=await api.getCompleteTaskList(this.query,this.page.current,this.page.size)
+            this.list=data.records
+            this.page.total=data.total
+        },
+        // 审批历史
+        clickProcessHistory(row){
+            this.row=row
+            this.$refs.historyRef.visible=true
+
         },
         // 条件查询方法
         queryData() {
@@ -98,6 +84,8 @@ export default {
         // 刷新重置
         reload() {
             this.query = {}
+            this.page.current=1
+            this.page.size=10
             this.fetchData()
         },
         // 当每页显示多少条改变后触发
@@ -110,11 +98,6 @@ export default {
             this.page.current = val
             this.fetchData()
         },
-         // 点击审批进度
-        clickProcessHistory(row) {
-            this.row = row
-            this.$refs.historyRef.visible = true
-        },
-    }
+    },
 }
 </script>
