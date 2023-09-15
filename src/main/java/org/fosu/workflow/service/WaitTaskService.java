@@ -11,6 +11,8 @@ public interface WaitTaskService {
     Map<String, Object> findWaitTask(TaskREQ req);
     Result getNextNodeInfo(String taskId);
     Result completeTask(TaskCompleteREQ req);
-    Result backTask(String taskId);
-    Result completebackTask(CompleteBackTaskREQ req);
+    Result turnTask(String taskId, String assigneeUserKey);
+    Result getBackNodes(String taskId);
+    Result backProcess(String taskId, String targetActivityId);
+    Result findCompleteTask(TaskREQ req);
 }

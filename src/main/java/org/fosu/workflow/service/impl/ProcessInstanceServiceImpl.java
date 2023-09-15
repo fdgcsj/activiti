@@ -18,6 +18,7 @@ import org.fosu.workflow.activiti.image.CustomProcessDiagramGenerator;
 import org.fosu.workflow.entities.BusinessStatus;
 import org.fosu.workflow.entities.ProcessConfig;
 import org.fosu.workflow.enums.BusinessStatusEnum;
+import org.fosu.workflow.req.ProcInstREQ;
 import org.fosu.workflow.req.StartREQ;
 import org.fosu.workflow.service.BusinessStatusService;
 import org.fosu.workflow.service.ProcessConfigService;
@@ -48,8 +49,7 @@ public class ProcessInstanceServiceImpl extends ActivitiService implements Proce
     @Override
     public Result getFormNameByProcInstId(String procInstId) {
         // 通过历史流程实例查询，因为如果流程实例全部审批完后，正在运行的流程实例数据会被删除，只有历史中有
-        HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
-                .includeProcessVariables()  // 查询流程变量
+        HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().includeProcessVariables()  // 查询流程变量
                 .processInstanceId(procInstId).singleResult();
 
         // 再获取流程实例中的流程变量(启动流程实例时设置了)
@@ -64,23 +64,16 @@ public class ProcessInstanceServiceImpl extends ActivitiService implements Proce
         InputStream inputStream = null;
         try {
             // 1.查询流程实例历史数据
-            HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery()
-                    .processInstanceId(procInstId).singleResult();
+            HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery().processInstanceId(procInstId).singleResult();
 
             // 2. 查询流程中已执行的节点，按时开始时间降序排列
-            List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery()
-                    .processInstanceId(procInstId)
-                    .orderByHistoricActivityInstanceStartTime().desc()
-                    .list();
+            List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery().processInstanceId(procInstId).orderByHistoricActivityInstanceStartTime().desc().list();
 
             // 3. 单独的提取高亮节点id ( 绿色）
-            List<String> highLightedActivityIdList =
-                    historicActivityInstanceList.stream()
-                            .map(HistoricActivityInstance::getActivityId).collect(Collectors.toList());
+            List<String> highLightedActivityIdList = historicActivityInstanceList.stream().map(HistoricActivityInstance::getActivityId).collect(Collectors.toList());
 
             // 4. 正在执行的节点 （红色）
-            List<Execution> runningActivityInstanceList = runtimeService.createExecutionQuery()
-                    .processInstanceId(procInstId).list();
+            List<Execution> runningActivityInstanceList = runtimeService.createExecutionQuery().processInstanceId(procInstId).list();
 
             List<String> runningActivityIdList = new ArrayList<>();
             for (Execution execution : runningActivityInstanceList) {
@@ -97,9 +90,7 @@ public class ProcessInstanceServiceImpl extends ActivitiService implements Proce
             // 获取高亮连线id
             List<String> highLightedFlows = generator.getHighLightedFlows(bpmnModel, historicActivityInstanceList);
             // 生成历史流程图
-            inputStream = generator.generateDiagramCustom(bpmnModel, highLightedActivityIdList,
-                    runningActivityIdList, highLightedFlows,
-                    "宋体", "微软雅黑", "黑体");
+            inputStream = generator.generateDiagramCustom(bpmnModel, highLightedActivityIdList, runningActivityIdList, highLightedFlows, "宋体", "微软雅黑", "黑体");
 
             // 响应相关图片
             response.setContentType("image/svg+xml");
@@ -140,8 +131,7 @@ public class ProcessInstanceServiceImpl extends ActivitiService implements Proce
         // 启动流程用户(保存在act_hi_procinst的start_user_id字段)
         Authentication.setAuthenticatedUserId(UserUtils.getUsername());
         // 开启流程实例(流程设计图唯一标识key，businessKey业务ID，流程变量)
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processConfig.getProcessKey(),
-                req.getBusinessKey(), variables);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processConfig.getProcessKey(), req.getBusinessKey(), variables);
         // 设置流程实例名称
         runtimeService.setProcessInstanceName(processInstance.getProcessInstanceId(), processInstance.getProcessDefinitionName());
         // 查询当前流程实例的正在运行任务
@@ -165,50 +155,163 @@ public class ProcessInstanceServiceImpl extends ActivitiService implements Proce
     @Override
     public Result cancel(String businessKey, String procInstId, String message) {
         // 撤回，删除当前流程实例
-        runtimeService.deleteProcessInstance(procInstId,
-                UserUtils.getUsername() + " 主动撤回了当前申请：" + message);
+        runtimeService.deleteProcessInstance(procInstId, UserUtils.getUsername() + " 主动撤回了当前申请：" + message);
         // 删除历史记录
         historyService.deleteHistoricProcessInstance(procInstId);
         historyService.deleteHistoricTaskInstance(procInstId);
         // 更新业务状态：已撤回
-        return businessStatusService.updateState(businessKey,
-                BusinessStatusEnum.CANCEL, "");
+        return businessStatusService.updateState(businessKey, BusinessStatusEnum.CANCEL, "");
     }
 
     @Override
     public Result getHistoryInfoList(String procInstId) {
         // 查询流程人工任务历史数据
-        List<HistoricTaskInstance> list =
-                historyService.createHistoricTaskInstanceQuery()
-                        .processInstanceId(procInstId)
-                        .orderByTaskCreateTime().asc()
-                        .list();
-        List<Map<String, Object>> records =
-                list.stream().map(historicTaskInstance -> {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("taskId", historicTaskInstance.getId()); // 任务ID
-                    map.put("taskName", historicTaskInstance.getName()); // 任务名称
-                    map.put("processInstanceId",
-                            historicTaskInstance.getProcessInstanceId()); // 流程实例ID
-                    map.put("startTime",
-                            DateUtils.format(historicTaskInstance.getStartTime())); // 开始时间
-                    map.put("endTime",
-                            DateUtils.format(historicTaskInstance.getEndTime())); // 结束时间
-                    map.put("status", historicTaskInstance.getEndTime() == null ?
-                            "待处理" : "已处理"); // 状态
-                    map.put("assignee", historicTaskInstance.getAssignee()); //办理人
-                    // 审批意见：撤回原因为空，查询审批意见
-                    String message = historicTaskInstance.getDeleteReason();
-                    if (StringUtils.isEmpty(message)) {
-                        List<Comment> taskComments =
-                                taskService.getTaskComments(historicTaskInstance.getId());
-                        message = taskComments.stream()
-                                .map(comment ->
-                                        comment.getFullMessage()).collect(Collectors.joining("。 "));
-                    }
-                    map.put("message", message);
-                    return map;
-                }).collect(Collectors.toList());
+        List<HistoricTaskInstance> list = historyService.createHistoricTaskInstanceQuery().processInstanceId(procInstId).orderByTaskCreateTime().asc().list();
+        List<Map<String, Object>> records = list.stream().map(historicTaskInstance -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("taskId", historicTaskInstance.getId()); // 任务ID
+            map.put("taskName", historicTaskInstance.getName()); // 任务名称
+            map.put("processInstanceId", historicTaskInstance.getProcessInstanceId()); // 流程实例ID
+            map.put("startTime", DateUtils.format(historicTaskInstance.getStartTime())); // 开始时间
+            map.put("endTime", DateUtils.format(historicTaskInstance.getEndTime())); // 结束时间
+            map.put("status", historicTaskInstance.getEndTime() == null ? "待处理" : "已处理"); // 状态
+            map.put("assignee", historicTaskInstance.getAssignee()); //办理人
+            // 审批意见：撤回原因为空，查询审批意见
+            String message = historicTaskInstance.getDeleteReason();
+            if (StringUtils.isEmpty(message)) {
+                List<Comment> taskComments = taskService.getTaskComments(historicTaskInstance.getId());
+                message = taskComments.stream().map(comment -> comment.getFullMessage()).collect(Collectors.joining("。 "));
+            }
+            map.put("message", message);
+            return map;
+        }).collect(Collectors.toList());
         return Result.ok(records);
+    }
+
+    @Override
+    public Result getProcInstListRunning(ProcInstREQ req) {
+        ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
+        if (StringUtils.isNotEmpty(req.getProcessName())) {
+            query.processInstanceNameLikeIgnoreCase("%" + req.getProcessName() + "%");
+        }
+        if (StringUtils.isNotEmpty(req.getProposer())) {
+            query.startedBy(req.getProposer());
+        }
+        List<ProcessInstance> instanceList = query.listPage(req.getFirstResult(), req.getSize());
+// 用于前端显示页面，总记录数
+        long total = query.count();
+        List<Map<String, Object>> records = instanceList.stream().map(instance -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("processInstanceId", instance.getProcessInstanceId()); // 流程实例id
+            map.put("processInstanceName", instance.getName()); // 流程实例名称
+            map.put("processKey", instance.getProcessDefinitionKey());
+            map.put("version", instance.getProcessDefinitionVersion());
+// 流程定义版本号
+            map.put("proposer", instance.getStartUserId()); // 流程发起人
+            map.put("processStatus", instance.isSuspended() ? "已暂停" : "已启动"); // 流程状态
+            map.put("businessKey", instance.getBusinessKey()); // 业务唯一标识
+// 查询当前实例任务
+            List<Task> taskList = taskService.createTaskQuery().processInstanceId(instance.getProcessInstanceId()).list();
+            String currTaskInfo = ""; // 当前任务
+            for (Task task : taskList) {
+                currTaskInfo += "任务名【" + task.getName() + "】，办理人【" + task.getAssignee() + "】<br>";
+            }
+            map.put("currTaskInfo", currTaskInfo);
+            map.put("startTime", DateUtils.format(instance.getStartTime()));
+            return map;
+        }).collect(Collectors.toList());
+// 排序
+        Collections.sort(records, new Comparator<Map<String, Object>>() {
+            @Override
+            public int compare(Map<String, Object> m1, Map<String, Object> m2) {
+                String date1 = String.valueOf(m1.get("startTime"));
+                String date2 = String.valueOf(m2.get("startTime"));
+                return date2.compareTo(date1);
+            }
+        });
+// 返回数据封装
+        Map<String, Object> result = new HashMap<>();
+        result.put("total", total);
+        result.put("records", records);
+        return Result.ok(result);
+    }
+
+    @Override
+    public Result updateProcInstState(String procInstId) {
+// 查询流程实例对象
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(procInstId).singleResult();
+// 获取当前流程实例状态是否为：挂起（暂停）
+        boolean suspended = processInstance.isSuspended();
+// 判断
+        if (suspended) {
+// 如果状态是：挂起，将状态更新为：激活 (启动）
+            runtimeService.activateProcessInstanceById(procInstId);
+        } else {
+// 如果状态是：激活，将状态更新为：挂起（暂停）
+            runtimeService.suspendProcessInstanceById(procInstId);
+        }
+        return Result.ok();
+    }
+
+    @Override
+    public Result deleteProcInst(String procInstId) {
+// 查询流程实例
+        ProcessInstance instance = runtimeService.createProcessInstanceQuery().processInstanceId(procInstId).singleResult();
+        if (instance == null) {
+            return Result.error("流程实例不存在");
+        }
+        // 删除流程实例
+        runtimeService.deleteProcessInstance(procInstId, UserUtils.getUsername() + " 作废了当前流程申请");
+// 更新流程业务状态
+        return businessStatusService.updateState(instance.getBusinessKey(), BusinessStatusEnum.INVALID);
+    }
+
+    @Override
+    public Result getProcInstFinish(ProcInstREQ req) {
+        HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery().finished().orderByProcessInstanceEndTime().desc();
+        if (StringUtils.isNotEmpty(req.getProcessName())) {
+            query.processInstanceNameLikeIgnoreCase(req.getProcessName());
+        }
+        if (StringUtils.isNotEmpty(req.getProposer())) {
+            query.startedBy(req.getProposer());
+        }
+        List<HistoricProcessInstance> instanceList = query.listPage(req.getFirstResult(), req.getSize());
+// 用于前端显示页面，总记录数
+        long total = query.count();
+        List<Map<String, Object>> records = instanceList.stream().map(instance -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("processInstanceId", instance.getId());
+            map.put("processInstanceName", instance.getName());
+            map.put("processKey", instance.getProcessDefinitionKey());
+            map.put("version", instance.getProcessDefinitionVersion());
+            map.put("proposer", instance.getStartUserId());
+            map.put("businessKey", instance.getBusinessKey());
+            map.put("startTime", DateUtils.format(instance.getStartTime()));
+            map.put("endTime", DateUtils.format(instance.getEndTime()));
+// 原因
+            map.put("deleteReason", instance.getDeleteReason());
+// 业务状态
+            BusinessStatus businessStatus = businessStatusService.getById(instance.getBusinessKey());
+            if (businessStatus != null) {
+                map.put("status", BusinessStatusEnum.getEumByCode(businessStatus.getStatus()).getDesc());
+            }
+            return map;
+        }).collect(Collectors.toList());
+        // 返回数据封装
+        Map<String, Object> result = new HashMap<>();
+        result.put("total", total);
+        result.put("records", records);
+        return Result.ok(result);
+    }
+
+    @Override
+    public Result deleteProcInstAndHistory(String procInstId) {
+// 1. 查询历史流程实例
+        HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery().processInstanceId(procInstId).singleResult();
+// 2. 删除历史流程实例
+        historyService.deleteHistoricProcessInstance(procInstId);
+        historyService.deleteHistoricTaskInstance(procInstId);
+// 3. 更新流程业务状态, 注意：流程实例id传递一个空字符串""，不要是null,不然无法更新到
+        return businessStatusService.updateState(instance.getBusinessKey(), BusinessStatusEnum.DELETE, "");
     }
 }
