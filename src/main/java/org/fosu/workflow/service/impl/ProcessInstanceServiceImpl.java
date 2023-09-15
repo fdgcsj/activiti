@@ -268,9 +268,11 @@ public class ProcessInstanceServiceImpl extends ActivitiService implements Proce
 
     @Override
     public Result getProcInstFinish(ProcInstREQ req) {
-        HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery().finished().orderByProcessInstanceEndTime().desc();
+        HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery()
+                .finished().
+                orderByProcessInstanceEndTime().desc();
         if (StringUtils.isNotEmpty(req.getProcessName())) {
-            query.processInstanceNameLikeIgnoreCase(req.getProcessName());
+            query.processInstanceNameLikeIgnoreCase("%" + req.getProcessName() + "%");
         }
         if (StringUtils.isNotEmpty(req.getProposer())) {
             query.startedBy(req.getProposer());
