@@ -30,4 +30,11 @@ public class LoanController {
     public Result update(@RequestBody Loan loan) {
         return loanService.update(loan);
     }
+
+    @ApiOperation("查询借款详情信息")
+    @GetMapping("/{id}")
+    public Result view(@PathVariable String id) {
+        Loan loan = loanService.getById(id);
+        return Result.ok(loan);
+    }
 }
