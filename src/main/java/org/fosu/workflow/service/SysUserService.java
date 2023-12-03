@@ -13,7 +13,7 @@ public interface SysUserService {
     SysUser findByUsername(String username);
 
     /**
-     * 随机获取10条用户信息
+     * 获取全部条用户信息
      * @return 用户信息实体类列表
      */
     List<SysUser> getTenUsers();

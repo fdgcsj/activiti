@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fosu.workflow.mapper.courseManagerMapper">
+    <resultMap id="courseManagerAndStatusList"
+               type="org.fosu.workflow.entities.courseManager">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="tch_id" property="tchId"/>
+        <result column="time" property="time"/>
+        <result column="room" property="room"/>
+        <result column="class_id" property="classId"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="process_instance_id" property="processInstanceId"
+        />
+        <result column="status" property="status"/>
+    </resultMap>
+    <select id="getcourseManagerAndStatusList" resultMap="courseManagerAndStatusList">
+        SELECT t1.*, t2.* FROM mxg_course t1
+        LEFT JOIN mxg_business_status t2
+        ON t1.id = t2.business_key
+        WHERE t1.tch_id = #{req.username}
+        <if test="req.course != null and req.course != ''">
+            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t1.tch_id LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+        ORDER BY t1.create_date DESC
+    </select>
+</mapper>

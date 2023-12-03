@@ -26,7 +26,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return baseMapper.selectOne(wrapper);
     }
 
-    /** 随机获取10条用户信息 */
+    /** 获取全部条用户信息 */
     @Override
     public List<SysUser> getTenUsers() {
 /*        // 总记录数
