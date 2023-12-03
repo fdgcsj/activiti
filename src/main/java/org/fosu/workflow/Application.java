@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableSwagger2Doc // 开启swagger接口文档
 @SpringBootApplication
 public class Application {
-
+//test
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
