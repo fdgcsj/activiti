@@ -1,0 +1,33 @@
+version: '3'
+services:
+  mysql:
+    container_name: sugar-workflow-mysql
+    command: --lower_case_table_names=1
+    image: docker.io/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: activiti
+    # userns: keep-id
+    ports:
+      - 127.0.0.1:3306:3306
+    volumes:
+      - ./activiti-dev/activiti.sql:/docker-entrypoint-initdb.d/data.sql
+      - ./_mysql_data:/var/lib/mysql
+  backend:
+    container_name: sugar-workflow-back
+    image: ghcr.io/sugar-ice/sugar-workflow-back
+    restart: on-failure
+    ports:
+      - 127.0.0.1:8080:8080
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/activiti?nullCatalogMeansCurrent=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&allowMultiQueries=true
+      SPRING_DATASOURCE_USERNAME: root
+      MYSQL_ROOT_PASSWORD: 123456
+  frontend:
+    container_name: sugar-workflow-front
+    image: ghcr.io/sugar-ice/sugar-workflow-front
+    ports:
+      - 127.0.0.1:8081:80
+
