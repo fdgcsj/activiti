@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /workflow
+    session:
+      cookie:
+        path: /
+        secure: true
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: ${SPRING_DATASOURCE_URL}
+      username: ${SPRING_DATASOURCE_USERNAME}
+      password: ${MYSQL_ROOT_PASSWORD}
+  activiti:
+    database-schema-update: true
+    db-history-used: true
+    history-level: full
+    check-process-definitions: false
+    deployment-mode: never-fail
+
+logging:
+  level:
+    org.activiti.engine.impl.persistence.entity: error
+    com.fosu.workflow.mapper: error
+
+mybatis-plus:
+  type-aliases-package: com.fosu.workflow.entities
+  mapper-locations: classpath*:org/fosu/workflow/mapper/**/*.xml
