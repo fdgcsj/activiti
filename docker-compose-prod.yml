@@ -1,0 +1,27 @@
+version: "3"
+services:
+  activiti-mysql:
+    command: --lower_case_table_names=1
+    image: ghcr.io/fdgcsj/activiti-mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: activiti
+    restart: unless-stopped
+  activiti-backend:
+    image: ghcr.io/fdgcsj/activiti-back:latest
+    depends_on:
+      - activiti-mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://activiti-mysql:3306/activiti?nullCatalogMeansCurrent=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&allowMultiQueries=true
+      SPRING_DATASOURCE_USERNAME: root
+      MYSQL_ROOT_PASSWORD: 123456
+    networks:
+      - proxy-net-1
+    restart: unless-stopped
+  activiti-frontend:
+    image: ghcr.io/fdgcsj/activiti-front:latest
+    restart: unless-stopped
+
+networks:
+  proxy-net-1:
+    external: true
