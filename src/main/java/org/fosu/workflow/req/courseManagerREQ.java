@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("课程管理请求类")
+@ApiModel("查询课程管理列表条件")
 public class courseManagerREQ extends BaseRequest {
     @ApiModelProperty("课程名称")
     private String course;

@@ -20,25 +20,25 @@ public class courseManagerController {
     @Autowired
     private courseManagerService CourseManagerService;
 
-    @ApiOperation("新增课程")
+    @ApiOperation("新增课程管理")
     @PostMapping
     public Result add(@RequestBody courseManager CourseManager) {
         return CourseManagerService.add(CourseManager);
     }
 
-    @ApiOperation("查询课程列表")
+    @ApiOperation("查询课程管理列表")
     @PostMapping("/list")
     public Result listPage(@RequestBody courseManagerREQ req) {
         return CourseManagerService.listPage(req);
     }
 
-    @ApiOperation("更新课程详情信息")
+    @ApiOperation("更新课程管理详情信息")
     @PutMapping
     public Result update(@RequestBody courseManager CourseManager) {
         return CourseManagerService.update(CourseManager);
     }
 
-    @ApiOperation("查询课程详情信息")
+    @ApiOperation("查询课程管理详情信息")
     @GetMapping("/{id}")
     public Result view(@PathVariable String id) {
         courseManager CourseManager = CourseManagerService.getById(id);
