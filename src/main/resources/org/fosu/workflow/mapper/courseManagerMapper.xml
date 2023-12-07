@@ -29,7 +29,7 @@
             AND t1.name LIKE CONCAT('%', #{req.course}, '%')
         </if>
         <if test="req.teacher != null and req.teacher != ''">
-            AND t1.tch_id LIKE CONCAT('%', #{req.teacher}, '%')
+            AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
         </if>
         ORDER BY t1.create_date DESC
     </select>
@@ -40,16 +40,22 @@
         LEFT JOIN mxg_student t4
         ON t4.class = t3.id
         WHERE t4.name=#{req.username}
+        <if test="req.course != null and req.course != ''">
+            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
         UNION ALL
         SELECT t6.* FROM mxg_student_elective_course t5
         LEFT JOIN mxg_elective_course t6
         ON t5.id = t6.id
         WHERE t5.name=#{req.username}
         <if test="req.course != null and req.course != ''">
-            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+            AND t6.name LIKE CONCAT('%', #{req.course}, '%')
         </if>
         <if test="req.teacher != null and req.teacher != ''">
-            AND t1.tch_id LIKE CONCAT('%', #{req.teacher}, '%')
+            AND t6.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
         </if>
     </select>
     <select id="getelectiveCourse" resultMap="courseManagerAndStatusList">
@@ -59,7 +65,7 @@
             AND t1.name LIKE CONCAT('%', #{req.course}, '%')
         </if>
         <if test="req.teacher != null and req.teacher != ''">
-            AND t1.tch_id LIKE CONCAT('%', #{req.teacher}, '%')
+            AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
         </if>
     </select>
     <select id="viewById" resultMap="courseManagerAndStatusList">
