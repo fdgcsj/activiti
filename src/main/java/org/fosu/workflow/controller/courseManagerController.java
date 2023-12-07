@@ -2,6 +2,7 @@ package org.fosu.workflow.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.fosu.workflow.entities.Student;
 import org.fosu.workflow.entities.courseManager;
 import org.fosu.workflow.req.courseManagerREQ;
 import org.fosu.workflow.service.ClassService;
@@ -9,6 +10,7 @@ import org.fosu.workflow.service.StudentService;
 import org.fosu.workflow.service.courseManagerService;
 import org.fosu.workflow.utils.DateUtils;
 import org.fosu.workflow.utils.Result;
+import org.fosu.workflow.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,5 +65,11 @@ public class courseManagerController {
     public Result view(@PathVariable String id) {
         courseManager CourseManager = CourseManagerService.getById(id);
         return Result.ok(CourseManager);
+    }
+
+    @ApiOperation("查询学生课程信息")
+    @PostMapping("/ClassInfolist")
+    public Result viewClassInfo(@RequestBody courseManagerREQ req) {
+        return Result.ok(CourseManagerService.listClassInfoPage(req));
     }
 }

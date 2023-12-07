@@ -9,4 +9,5 @@ public interface courseManagerService extends IService<courseManager> {
     Result add(courseManager CourseManager);
     Result listPage(courseManagerREQ req);
     Result update(courseManager CourseManager);
+    Result listClassInfoPage(courseManagerREQ req);
 }

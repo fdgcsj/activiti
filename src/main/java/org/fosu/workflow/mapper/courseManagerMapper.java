@@ -11,4 +11,6 @@ import org.fosu.workflow.req.courseManagerREQ;
 
 public interface courseManagerMapper extends BaseMapper<courseManager> {
     IPage<courseManager> getcourseManagerAndStatusList(IPage<courseManager> page, @Param("req") courseManagerREQ req);
+
+    IPage<courseManager> getClassInfoPage(IPage<courseManager> page, @Param("req") courseManagerREQ req);
 }

@@ -11,6 +11,7 @@
         <result column="time" property="time"/>
         <result column="room" property="room"/>
         <result column="class_id" property="classId"/>
+        <result column="class_name" property="class_name"/>
         <result column="create_date" property="createDate"/>
         <result column="update_date" property="updateDate"/>
         <result column="process_instance_id" property="processInstanceId"
@@ -18,10 +19,29 @@
         <result column="status" property="status"/>
     </resultMap>
     <select id="getcourseManagerAndStatusList" resultMap="courseManagerAndStatusList">
-        SELECT t1.*, t2.* FROM mxg_course t1
+        SELECT t1.*,t2.*,t3.*,t3.name as class_name FROM mxg_course t1
         LEFT JOIN mxg_business_status t2
         ON t1.id = t2.business_key
+        LEFT JOIN mxg_class t3
+        ON t1.class_id = t3.id
         WHERE t1.tch_id = #{req.username}
+        <if test="req.course != null and req.course != ''">
+            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t1.tch_id LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+        ORDER BY t1.create_date DESC
+    </select>
+    <select id="getClassInfoPage" resultMap="courseManagerAndStatusList">
+        SELECT t1.*,t2.*,t3.*,t4.*,t3.name as class_name FROM mxg_course t1
+        LEFT JOIN mxg_business_status t2
+        ON t1.id = t2.business_key
+        LEFT JOIN mxg_class t3
+        ON t1.class_id = t3.id
+        LEFT JOIN mxg_student t4
+        ON t4.class = t3.id
+        WHERE t4.name=#{req.username}
         <if test="req.course != null and req.course != ''">
             AND t1.name LIKE CONCAT('%', #{req.course}, '%')
         </if>

@@ -40,7 +40,7 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
         if (StringUtils.isEmpty(req.getUsername())) {
             req.setUsername(UserUtils.getUsername());
         }
-        IPage<Loan> page = baseMapper.getcourseManagerAndStatusList(req.getPage(), req);
+        IPage<courseManager> page = baseMapper.getcourseManagerAndStatusList(req.getPage(), req);
         return Result.ok(page);
     }
 
@@ -57,5 +57,14 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
         baseMapper.updateById(entity);
         return Result.ok();
     }
+
+    @Override
+    public Result listClassInfoPage(courseManagerREQ req){
+        if (StringUtils.isEmpty(req.getUsername())) {
+            req.setUsername(UserUtils.getUsername());
+        }
+        IPage<courseManager> page = baseMapper.getClassInfoPage(req.getPage(), req);
+        return Result.ok(page);
+    };
 
 }

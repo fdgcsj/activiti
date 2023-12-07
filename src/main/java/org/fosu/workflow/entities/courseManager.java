@@ -30,6 +30,9 @@ public class courseManager {
     private String room;
     @ApiModelProperty("班级id")
     private String classId;
+    @TableField(exist = false)
+    @ApiModelProperty("班级名称")
+    private String class_name;
     @ApiModelProperty("创建时间")
     private Date createDate;
     @ApiModelProperty("更新时间")
