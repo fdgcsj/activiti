@@ -7,9 +7,12 @@ import org.fosu.workflow.req.courseManagerREQ;
 import org.fosu.workflow.service.ClassService;
 import org.fosu.workflow.service.StudentService;
 import org.fosu.workflow.service.courseManagerService;
+import org.fosu.workflow.utils.DateUtils;
 import org.fosu.workflow.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @Api("借款申请控制层")
 @ResponseBody
@@ -26,6 +29,7 @@ public class courseManagerController {
     @ApiOperation("新增课程管理")
     @PostMapping
     public Result add(@RequestBody courseManager CourseManager) {
+        CourseManager.setCreateDate(new Date());
         return CourseManagerService.add(CourseManager);
     }
 
@@ -50,6 +54,7 @@ public class courseManagerController {
     @ApiOperation("更新课程管理详情信息")
     @PutMapping
     public Result update(@RequestBody courseManager CourseManager) {
+        CourseManager.setCreateDate(new Date());
         return CourseManagerService.update(CourseManager);
     }
 
