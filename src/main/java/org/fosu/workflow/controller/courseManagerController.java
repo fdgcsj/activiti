@@ -6,7 +6,8 @@ import org.fosu.workflow.entities.Loan;
 import org.fosu.workflow.entities.courseManager;
 import org.fosu.workflow.req.LoanREQ;
 import org.fosu.workflow.req.courseManagerREQ;
-import org.fosu.workflow.service.LoanService;
+import org.fosu.workflow.service.ClassService;
+import org.fosu.workflow.entities.Class;
 import org.fosu.workflow.service.courseManagerService;
 import org.fosu.workflow.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,19 @@ import org.springframework.web.bind.annotation.*;
 public class courseManagerController {
     @Autowired
     private courseManagerService CourseManagerService;
+    @Autowired
+    private ClassService classService;
 
     @ApiOperation("新增课程管理")
     @PostMapping
     public Result add(@RequestBody courseManager CourseManager) {
         return CourseManagerService.add(CourseManager);
+    }
+
+    @ApiOperation("获取所有课程班级")
+    @GetMapping("/classes")
+    public Result getAllClasses() {
+        return classService.getAllClasses();
     }
 
     @ApiOperation("查询课程管理列表")
