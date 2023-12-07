@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 07/12/2023 17:18:39
+ Date: 08/12/2023 01:54:00
 */
 
 SET NAMES utf8mb4;
@@ -1158,11 +1158,11 @@ CREATE TABLE `mxg_class`  (
 -- ----------------------------
 -- Records of mxg_class
 -- ----------------------------
-INSERT INTO `mxg_class` VALUES ('202003101', '20计科1', 'zhangsan', '王五', 'wangwu', '张三');
-INSERT INTO `mxg_class` VALUES ('202003102', '20计科2', 'zhangsan', '王五', 'wangwu', '张三');
-INSERT INTO `mxg_class` VALUES ('202003201', '20网安1', 'lisi', '王五', 'wangwu', '李四');
-INSERT INTO `mxg_class` VALUES ('202003202', '20网安2', 'lisi', '王五', 'wangwu', '李四');
-INSERT INTO `mxg_class` VALUES ('202003203', '20网安3', 'lisi', '王五', 'wangwu', '李四');
+INSERT INTO `mxg_class` VALUES ('202003101', '20计科1班', 'zhangsan', '王五', 'wangwu', '张三');
+INSERT INTO `mxg_class` VALUES ('202003102', '20计科2班', 'zhangsan', '王五', 'wangwu', '张三');
+INSERT INTO `mxg_class` VALUES ('202003201', '20网安1班', 'lisi', '王五', 'wangwu', '李四');
+INSERT INTO `mxg_class` VALUES ('202003202', '20网安2班', 'lisi', '王五', 'wangwu', '李四');
+INSERT INTO `mxg_class` VALUES ('202003203', '20网安3班', 'lisi', '王五', 'wangwu', '李四');
 
 -- ----------------------------
 -- Table structure for mxg_course
@@ -1191,13 +1191,37 @@ CREATE TABLE `mxg_course`  (
 -- Records of mxg_course
 -- ----------------------------
 INSERT INTO `mxg_course` VALUES ('1', '高等数学', 'zhangsan', '张三', '1-8周 周三 9:40-11:50', 'C4-116', '202003101', NULL, NULL);
-INSERT INTO `mxg_course` VALUES ('2', '线性代数', 'zhangsan', '张三', '1-8周 周三 8:00-9:25', 'C4-116', '202003101', NULL, NULL);
-INSERT INTO `mxg_course` VALUES ('3', '离散数学', 'lisi', '李四', '9-16周 周三 9:40-11:50', 'C4-216', '202003102', NULL, NULL);
-INSERT INTO `mxg_course` VALUES ('4', '数值分析', 'lisi', '李四', '9-16周 周三 13:30-14:55', 'C4-216', '202003102', NULL, NULL);
-INSERT INTO `mxg_course` VALUES ('5', '创新思维训练', 'wangwu', '王五', '1-8周 周三 9:40-11:50', 'C4-116', '202003201', NULL, NULL);
-INSERT INTO `mxg_course` VALUES ('6', '影视鉴赏', 'wangwu', '王五', '1-8周 周三 8:00-9:25', 'C4-116', '202003201', NULL, NULL);
-INSERT INTO `mxg_course` VALUES ('7', '古典文学鉴赏', 'wangwu', '王五', '9-16周 周三 9:40-11:50', 'C4-216', '202003202', NULL, NULL);
-INSERT INTO `mxg_course` VALUES ('8', '创新思维与创新方法', 'wangwu', '王五', '9-16周 周三 13:30-14:55', 'C4-216', '202003202', NULL, NULL);
+INSERT INTO `mxg_course` VALUES ('2', '线性代数', 'zhangsan', '张三', '1-8周 周三 8:00-9:25', 'C4-116', '202003102', NULL, NULL);
+INSERT INTO `mxg_course` VALUES ('3', '离散数学', 'lisi', '李四', '9-16周 周三 9:40-11:50', 'C4-216', '202003201', NULL, NULL);
+INSERT INTO `mxg_course` VALUES ('4', '数值分析', 'lisi', '李四', '9-16周 周三 13:30-14:55', 'C4-216', '202003202', NULL, NULL);
+INSERT INTO `mxg_course` VALUES ('5', '线性代数', 'wangwu', '王五', '1-8周 周三 15:10-16:35', 'C4-308', '202003203', NULL, NULL);
+INSERT INTO `mxg_course` VALUES ('6', '高等数学', 'zhangsan', '张三', '9-16周 周四 9:40-11:50', 'C4-116', '202003101', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for mxg_elective_course
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_elective_course`;
+CREATE TABLE `mxg_elective_course`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '课程唯一id',
+  `name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '课程名称',
+  `tch_id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '教师用户名',
+  `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '教师姓名',
+  `time` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '上课时间',
+  `room` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '上课地点',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_elective_course_tch_id`(`tch_id`) USING BTREE,
+  INDEX `fk_elective_course_nick_name`(`nick_name`) USING BTREE,
+  CONSTRAINT `fk_elective_course_tch_id` FOREIGN KEY (`tch_id`) REFERENCES `mxg_teacher` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_elective_course_nick_name` FOREIGN KEY (`nick_name`) REFERENCES `mxg_teacher` (`nick_name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_elective_course
+-- ----------------------------
+INSERT INTO `mxg_elective_course` VALUES ('1', '创新思维训练', 'zhangsan', '张三', '1-8周 周三 9:40-11:50', 'C4-116');
+INSERT INTO `mxg_elective_course` VALUES ('2', '影视鉴赏', 'lisi', '李四', '1-8周 周三 8:00-9:25', 'C4-116');
+INSERT INTO `mxg_elective_course` VALUES ('3', '古典文学鉴赏', 'wangwu', '王五', '9-16周 周三 9:40-11:50', 'C4-216');
+INSERT INTO `mxg_elective_course` VALUES ('4', '创新思维与创新方法', 'wangwu', '王五', '9-16周 周三 13:30-14:55', 'C4-216');
 
 -- ----------------------------
 -- Table structure for mxg_leave
@@ -1291,6 +1315,7 @@ CREATE TABLE `mxg_student`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_user_name`(`name`) USING BTREE,
   INDEX `fk_user_nick_name`(`nick_name`) USING BTREE,
+  INDEX `student_id`(`student_id`) USING BTREE,
   CONSTRAINT `fk_user_id` FOREIGN KEY (`id`) REFERENCES `sys_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user_name` FOREIGN KEY (`name`) REFERENCES `sys_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user_nick_name` FOREIGN KEY (`nick_name`) REFERENCES `sys_user` (`nick_name`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -1324,6 +1349,32 @@ INSERT INTO `mxg_student` VALUES ('40', 'xuesheng52', '学生52', '20200320302',
 INSERT INTO `mxg_student` VALUES ('41', 'xuesheng53', '学生53', '20200320303', '202003203', '网络安全');
 INSERT INTO `mxg_student` VALUES ('42', 'xuesheng54', '学生54', '20200320304', '202003203', '网络安全');
 INSERT INTO `mxg_student` VALUES ('43', 'xuesheng55', '学生55', '20200320305', '202003203', '网络安全');
+
+-- ----------------------------
+-- Table structure for mxg_student_elective_course
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_student_elective_course`;
+CREATE TABLE `mxg_student_elective_course`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '课程唯一id',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '学生用户名',
+  `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '学生姓名',
+  `student_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '学生学号',
+  INDEX `fk_student_elective_course_name`(`name`) USING BTREE,
+  INDEX `fk_student_elective_course_nick_name`(`nick_name`) USING BTREE,
+  CONSTRAINT `fk_student_elective_course_name` FOREIGN KEY (`name`) REFERENCES `mxg_student` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_student_elective_course_nick_name` FOREIGN KEY (`nick_name`) REFERENCES `mxg_student` (`nick_name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_student_elective_course
+-- ----------------------------
+INSERT INTO `mxg_student_elective_course` VALUES ('1', 'xuesheng12', '学生12', '20200310102');
+INSERT INTO `mxg_student_elective_course` VALUES ('2', 'xuesheng11', '学生11', '20200310101');
+INSERT INTO `mxg_student_elective_course` VALUES ('3', 'xuesheng11', '学生11', '20200310101');
+INSERT INTO `mxg_student_elective_course` VALUES ('4', 'xuesheng11', '学生11', '20200310101');
+INSERT INTO `mxg_student_elective_course` VALUES ('1', 'xuesheng13', '学生13', '20200310103');
+INSERT INTO `mxg_student_elective_course` VALUES ('2', 'xuesheng12', '学生12', '20200310102');
+INSERT INTO `mxg_student_elective_course` VALUES ('1', 'xuesheng11', '学生11', '20200310101');
 
 -- ----------------------------
 -- Table structure for mxg_teacher
