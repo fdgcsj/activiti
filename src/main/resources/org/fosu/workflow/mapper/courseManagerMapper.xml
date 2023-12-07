@@ -19,7 +19,7 @@
         <result column="status" property="status"/>
     </resultMap>
     <select id="getcourseManagerAndStatusList" resultMap="courseManagerAndStatusList">
-        SELECT t1.*,t2.*,t3.*,t3.name as class_name FROM mxg_course t1
+        SELECT t1.id,t1.name,t1.tch_id,t1.nick_name,t1.time,t1.room,t1.class_id,t2.*,t3.name as class_name FROM mxg_course t1
         LEFT JOIN mxg_business_status t2
         ON t1.id = t2.business_key
         LEFT JOIN mxg_class t3

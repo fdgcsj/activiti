@@ -42,11 +42,11 @@ public class courseManagerController {
         return classService.getAllClasses();
     }
 
-/*    @ApiOperation("获取指定班级的所有学生")
+    @ApiOperation("获取指定班级的所有学生")
     @GetMapping("/classes/{classId}/students")
     public Result getStudentsByClass(@PathVariable String classId) {
         return studentService.getStudentsByClass(classId);
-    }*/
+    }
 
     @ApiOperation("查询课程管理列表")
     @PostMapping("/list")
