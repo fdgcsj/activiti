@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service  // 不要少
+@Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
     /** 通过用户名获取用户信息 */
     @Override
@@ -26,20 +26,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return baseMapper.selectOne(wrapper);
     }
 
-    /** 获取全部条用户信息 */
+    /** 获取全部用户信息 */
     @Override
-    public List<SysUser> getTenUsers() {
-/*        // 总记录数
-        int count = baseMapper.selectCount(null);
-        // 随机起始位置
-        int randomCount = count > 10 ? (int)(Math.random() * (count - 10)) : 0;
-
-        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
-        wrapper.orderByAsc("id");
-        wrapper.last("limit " + String.valueOf(randomCount) + ", 10");
-        return baseMapper.selectList(wrapper);*/
-        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
-        wrapper.orderByAsc("id");
-        return baseMapper.selectList(wrapper);
+    public List<SysUser> getAllUsers() {
+        return baseMapper.getAllUsers();
     }
 }

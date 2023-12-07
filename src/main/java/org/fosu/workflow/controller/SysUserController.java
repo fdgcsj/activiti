@@ -18,9 +18,9 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
 
-    @ApiOperation("查询全部条用户信息")
+    @ApiOperation("查询全部用户信息")
     @GetMapping("/all")
     public Result all() {
-        return Result.ok(sysUserService.getTenUsers());
+        return Result.ok(sysUserService.getAllUsers());
     }
 }
