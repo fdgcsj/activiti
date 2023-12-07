@@ -20,8 +20,10 @@ public class courseManager {
     private String id;
     @ApiModelProperty("课程名称")
     private String name;
-    @ApiModelProperty("教师id")
+    @ApiModelProperty("教师用户名")
     private String tchId;
+    @ApiModelProperty("教师姓名")
+    private String nick_name;
     @ApiModelProperty("上课时间")
     private String time;
     @ApiModelProperty("上课教室")

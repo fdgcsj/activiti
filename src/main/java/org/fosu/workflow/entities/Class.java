@@ -18,8 +18,12 @@ public class Class {
     private String id;
     @ApiModelProperty("班级名称")
     private String name;
-    @ApiModelProperty("班主任")
+    @ApiModelProperty("班主任用户名")
     private String head_teacher;
-    @ApiModelProperty("辅导员")
+    @ApiModelProperty("班主任姓名")
+    private String head_teacher_nick_name;
+    @ApiModelProperty("辅导员用户名")
     private String counselor;
+    @ApiModelProperty("辅导员姓名")
+    private String counselor_nick_name;
 }

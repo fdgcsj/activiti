@@ -9,6 +9,7 @@
         <result column="student_id" property="student_id"/>
         <result column="class" property="classid"/>
         <result column="major" property="major"/>
+        <result column="nick_name" property="nick_name"/>
     </resultMap>
     <select id="getStudentsByClass" resultMap="getStudentsByClass">
         SELECT * FROM mxg_student WHERE class = #{classId}

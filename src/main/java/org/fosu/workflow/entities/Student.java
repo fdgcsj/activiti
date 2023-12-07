@@ -13,8 +13,10 @@ import lombok.Data;
 public class Student {
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
-    @ApiModelProperty("学生姓名")
+    @ApiModelProperty("学生用户名")
     private String name;
+    @ApiModelProperty("学生姓名")
+    private String nick_name;
     @ApiModelProperty("学号")
     private String student_id;
     @ApiModelProperty("班级id")
