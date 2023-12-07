@@ -34,20 +34,41 @@
         ORDER BY t1.create_date DESC
     </select>
     <select id="getClassInfoPage" resultMap="courseManagerAndStatusList">
-        SELECT t1.*,t2.*,t3.*,t4.*,t3.name as class_name FROM mxg_course t1
-        LEFT JOIN mxg_business_status t2
-        ON t1.id = t2.business_key
+        SELECT t1.id,t1.name,t1.tch_id,t1.nick_name,t1.time,t1.room FROM mxg_course t1
         LEFT JOIN mxg_class t3
         ON t1.class_id = t3.id
         LEFT JOIN mxg_student t4
         ON t4.class = t3.id
         WHERE t4.name=#{req.username}
+        UNION ALL
+        SELECT t6.* FROM mxg_student_elective_course t5
+        LEFT JOIN mxg_elective_course t6
+        ON t5.id = t6.id
+        WHERE t5.name='xuesheng11'
         <if test="req.course != null and req.course != ''">
             AND t1.name LIKE CONCAT('%', #{req.course}, '%')
         </if>
         <if test="req.teacher != null and req.teacher != ''">
             AND t1.tch_id LIKE CONCAT('%', #{req.teacher}, '%')
         </if>
-        ORDER BY t1.create_date DESC
     </select>
+    <select id="getelectiveCourse" resultMap="courseManagerAndStatusList">
+        SELECT * from mxg_elective_course t1
+        where 1=1
+        <if test="req.course != null and req.course != ''">
+            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t1.tch_id LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+    </select>
+    <insert id="selectElectiveCourse">
+        INSERT INTO mxg_student_elective_course (id, name, nick_name,student_id)
+        SELECT #{id}, #{username}, (SELECT nick_name FROM mxg_student WHERE name = #{username}),(SELECT student_id FROM mxg_student WHERE name = #{username})
+    </insert>
+    <delete id="deleteElectiveCourse">
+        DELETE FROM mxg_student_elective_course
+        WHERE id = #{id} AND name = #{username}
+    </delete>
+
 </mapper>

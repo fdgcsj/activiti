@@ -7,7 +7,16 @@ import org.fosu.workflow.utils.Result;
 
 public interface courseManagerService extends IService<courseManager> {
     Result add(courseManager CourseManager);
+
     Result listPage(courseManagerREQ req);
+
     Result update(courseManager CourseManager);
+
     Result listClassInfoPage(courseManagerREQ req);
+
+    Result listelectiveCourse(courseManagerREQ req);
+
+    Result selectElectiveCourse(String id,String username);
+
+    Result deleteElectiveCourse(String id,String username);
 }

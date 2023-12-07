@@ -13,4 +13,10 @@ public interface courseManagerMapper extends BaseMapper<courseManager> {
     IPage<courseManager> getcourseManagerAndStatusList(IPage<courseManager> page, @Param("req") courseManagerREQ req);
 
     IPage<courseManager> getClassInfoPage(IPage<courseManager> page, @Param("req") courseManagerREQ req);
+
+    IPage<courseManager> getelectiveCourse(IPage<courseManager> page, @Param("req") courseManagerREQ req);
+
+    void selectElectiveCourse(String id, String username);
+
+    void deleteElectiveCourse(String id, String username);
 }

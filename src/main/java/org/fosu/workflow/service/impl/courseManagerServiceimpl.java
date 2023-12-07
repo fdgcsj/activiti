@@ -59,12 +59,34 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
     }
 
     @Override
-    public Result listClassInfoPage(courseManagerREQ req){
+    public Result listClassInfoPage(courseManagerREQ req) {
         if (StringUtils.isEmpty(req.getUsername())) {
             req.setUsername(UserUtils.getUsername());
         }
         IPage<courseManager> page = baseMapper.getClassInfoPage(req.getPage(), req);
         return Result.ok(page);
-    };
+    }
+
+
+    @Override
+    public Result listelectiveCourse(courseManagerREQ req) {
+        if (StringUtils.isEmpty(req.getUsername())) {
+            req.setUsername(UserUtils.getUsername());
+        }
+        IPage<courseManager> page = baseMapper.getelectiveCourse(req.getPage(), req);
+        return Result.ok(page);
+    }
+
+    @Override
+    public Result selectElectiveCourse(String id,String username) {
+        baseMapper.selectElectiveCourse(id,username);
+        return Result.ok();
+    }
+
+    @Override
+    public Result deleteElectiveCourse(String id,String username) {
+        baseMapper.deleteElectiveCourse(id,username);
+        return Result.ok();
+    }
 
 }
