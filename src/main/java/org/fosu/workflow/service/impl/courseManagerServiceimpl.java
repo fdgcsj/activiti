@@ -18,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Service
@@ -56,6 +57,12 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
         entity.setUpdateDate(new Date());
         baseMapper.updateById(entity);
         return Result.ok();
+    }
+
+    @Override
+    public Result viewById(String id) {
+        ArrayList<courseManager> list=baseMapper.viewById(id);
+        return Result.ok(list);
     }
 
     @Override

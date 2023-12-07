@@ -63,9 +63,8 @@ public class courseManagerController {
 
     @ApiOperation("查询课程管理详情信息")
     @GetMapping("/{id}")
-    public Result view(@PathVariable String id) {
-        courseManager CourseManager = CourseManagerService.getById(id);
-        return Result.ok(CourseManager);
+    public Result viewById(@PathVariable String id) {
+        return Result.ok(CourseManagerService.viewById(id));
     }
 
     @ApiOperation("查询学生课程信息")
