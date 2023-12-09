@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-@Api("借款申请控制层")
+@Api("课程管理控制层")
 @ResponseBody
 @RestController
 @RequestMapping("/courseManager")
@@ -57,7 +57,6 @@ public class courseManagerController {
     @ApiOperation("更新课程管理详情信息")
     @PutMapping
     public Result update(@RequestBody courseManager CourseManager) {
-        CourseManager.setCreateDate(new Date());
         return CourseManagerService.update(CourseManager);
     }
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fosu.workflow.mapper.CourseMessageMapper">
+    <resultMap id="CourseMessage"
+               type="org.fosu.workflow.entities.CourseMessage">
+        <id column="id" property="id"/>
+        <result column="course_name" property="course_name"/>
+        <result column="teacher_name" property="teacher_name"/>
+        <result column="teacher_nick_name" property="teacher_nick_name"/>
+        <result column="class_id" property="class_id"/>
+        <result column="class_name" property="class_name"/>
+        <result column="create_date" property="createDate"/>
+    </resultMap>
+    <select id="viewById" resultMap="CourseMessage">
+        SELECT t1.*,t3.name as class_name FROM mxg_message t1
+        LEFT JOIN mxg_class t3
+        ON t1.class_id = t3.id
+        WHERE t1.id = #{id}
+        ORDER BY t1.create_date DESC
+    </select>
+    <select id="getCourseMessageList" resultMap="CourseMessage">
+        SELECT t1.*,t3.name as class_name FROM mxg_message t1
+        LEFT JOIN mxg_class t3
+        ON t1.class_id = t3.id
+        WHERE t1.teacher_name = #{req.username}
+        <if test="req.course != null and req.course != ''">
+            AND t1.course_name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.classes != null and req.classes != ''">
+            AND t3.name LIKE CONCAT('%', #{req.classes}, '%')
+        </if>
+        ORDER BY t1.create_date DESC
+</select>
+    <select id="classMessageList" resultMap="CourseMessage">
+        SELECT t1.*,t3.name as class_name FROM mxg_message t1
+        LEFT JOIN mxg_student t2
+        ON t2.name = #{req.username}
+        LEFT JOIN mxg_class t3
+        ON t1.class_id = t3.id
+        WHERE t2.class = t1.class_id
+        <if test="req.course != null and req.course != ''">
+            AND t1.course_name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.classes != null and req.classes != ''">
+            AND t3.name LIKE CONCAT('%', #{req.classes}, '%')
+        </if>
+        ORDER BY t1.create_date DESC
+    </select>
+
+</mapper>

@@ -23,4 +23,9 @@ public class ClassServiceimpl extends ServiceImpl<ClassMapper, Class> implements
         return Result.ok(ClassesList);
     };
 
+    public Result getTeacherClasses(String username){
+        ArrayList<Class> ClassesList=baseMapper.getTeacherClasses(username);
+        return Result.ok(ClassesList);
+    };
+
 }

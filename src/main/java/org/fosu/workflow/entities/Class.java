@@ -18,6 +18,12 @@ public class Class {
     private String id;
     @ApiModelProperty("班级名称")
     private String name;
+    @TableField(exist = false)
+    @ApiModelProperty("班级名称")
+    private String class_name;
+    @TableField(exist = false)
+    @ApiModelProperty("班级id")
+    private String class_id;
     @ApiModelProperty("班主任用户名")
     private String head_teacher;
     @ApiModelProperty("班主任姓名")
