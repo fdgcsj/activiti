@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 10/12/2023 06:36:01
+ Date: 11/12/2023 12:24:33
 */
 
 SET NAMES utf8mb4;
@@ -1202,6 +1202,7 @@ INSERT INTO `mxg_course` VALUES ('3', '离散数学', 'lisi', '李四', '9-16周
 INSERT INTO `mxg_course` VALUES ('4', '数值分析', 'lisi', '李四', '9-16周 周三 13:30-14:55', 'C4-216', '202003202', NULL, NULL);
 INSERT INTO `mxg_course` VALUES ('5', '线性代数', 'wangwu', '王五', '1-8周 周三 15:10-16:35', 'C4-308', '202003203', NULL, NULL);
 INSERT INTO `mxg_course` VALUES ('6', '高等数学', 'zhangsan', '张三', '9-16周 周四 9:40-11:50', 'C4-116', '202003101', NULL, NULL);
+INSERT INTO `mxg_course` VALUES ('7', '线性代数', 'zhangsan', '张三', '1-8周 周三 8:00-9:25', 'C4-116', '202003101', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for mxg_elective_course
@@ -1429,6 +1430,31 @@ INSERT INTO `mxg_teacher` VALUES ('11', 'admin', '超级管理员', '教务处')
 INSERT INTO `mxg_teacher` VALUES ('12', 'zhangsan', '张三', '教师');
 INSERT INTO `mxg_teacher` VALUES ('13', 'lisi', '李四', '教师');
 INSERT INTO `mxg_teacher` VALUES ('14', 'wangwu', '王五', '辅导员');
+
+-- ----------------------------
+-- Table structure for mxg_teacher_score
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_teacher_score`;
+CREATE TABLE `mxg_teacher_score`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'id',
+  `name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '课程名称',
+  `tch_id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名',
+  `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '教师姓名',
+  `score1` int NOT NULL COMMENT '课程评分',
+  `score2` int NOT NULL COMMENT '课程评分',
+  `score3` int NOT NULL COMMENT '课程评分',
+  `score4` int NOT NULL COMMENT '课程评分',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_teacher_score
+-- ----------------------------
+INSERT INTO `mxg_teacher_score` VALUES ('1', '高等数学', 'xuesheng11', '张三', 12, 6, 6, 6);
+INSERT INTO `mxg_teacher_score` VALUES ('1734066138980745218', '离散数学', 'wangwu', '李四', 5, 15, 10, 20);
+INSERT INTO `mxg_teacher_score` VALUES ('2', '高等数学', 'xuesheng12', '张三', 24, 24, 25, 26);
+INSERT INTO `mxg_teacher_score` VALUES ('3', '线性代数', 'xuesheng11', '张三', 12, 6, 6, 6);
+INSERT INTO `mxg_teacher_score` VALUES ('4', '线性代数', 'xuesheng11', '李四', 1, 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for sys_user
