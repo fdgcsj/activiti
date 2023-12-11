@@ -54,6 +54,18 @@ public class courseManagerController {
         return CourseManagerService.listPage(req);
     }
 
+    @ApiOperation("查询所有课程名称和任课老师唯一的列表")
+    @PostMapping("/allCourseNameAndTeacherlist")
+    public Result allCourseNameAndTeacherlist(@RequestBody courseManagerREQ req) {
+        return CourseManagerService.allCourseNameAndTeacherlist(req);
+    }
+
+    @ApiOperation("查询班级的课程名称和任课老师唯一的列表")
+    @PostMapping("/classCourseNameAndTeacherlist")
+    public Result classCourseNameAndTeacherlist(@RequestBody courseManagerREQ req) {
+        return CourseManagerService.classCourseNameAndTeacherlist(req);
+    }
+
     @ApiOperation("更新课程管理详情信息")
     @PutMapping
     public Result update(@RequestBody courseManager CourseManager) {

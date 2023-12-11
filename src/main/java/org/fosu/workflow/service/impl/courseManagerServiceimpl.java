@@ -46,6 +46,24 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
     }
 
     @Override
+    public Result allCourseNameAndTeacherlist(courseManagerREQ req) {
+        if (StringUtils.isEmpty(req.getUsername())) {
+            req.setUsername(UserUtils.getUsername());
+        }
+        IPage<courseManager> page = baseMapper.getallCourseNameAndTeacherlist(req.getPage(), req);
+        return Result.ok(page);
+    }
+
+    @Override
+    public Result classCourseNameAndTeacherlist(courseManagerREQ req) {
+        if (StringUtils.isEmpty(req.getUsername())) {
+            req.setUsername(UserUtils.getUsername());
+        }
+        IPage<courseManager> page = baseMapper.getClassCourseNameAndTeacherlist(req.getPage(), req);
+        return Result.ok(page);
+    }
+
+    @Override
     public Result update(courseManager CourseManager) {
         if (CourseManager == null || StringUtils.isEmpty(CourseManager.getId())) {
             return Result.error("数据不合法");
@@ -61,7 +79,7 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
 
     @Override
     public Result viewById(String id) {
-        ArrayList<courseManager> list=baseMapper.viewById(id);
+        ArrayList<courseManager> list = baseMapper.viewById(id);
         return Result.ok(list);
     }
 
@@ -85,14 +103,14 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
     }
 
     @Override
-    public Result selectElectiveCourse(String id,String username) {
-        baseMapper.selectElectiveCourse(id,username);
+    public Result selectElectiveCourse(String id, String username) {
+        baseMapper.selectElectiveCourse(id, username);
         return Result.ok();
     }
 
     @Override
-    public Result deleteElectiveCourse(String id,String username) {
-        baseMapper.deleteElectiveCourse(id,username);
+    public Result deleteElectiveCourse(String id, String username) {
+        baseMapper.deleteElectiveCourse(id, username);
         return Result.ok();
     }
 

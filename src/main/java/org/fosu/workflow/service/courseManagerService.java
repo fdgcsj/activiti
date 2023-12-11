@@ -11,6 +11,10 @@ public interface courseManagerService extends IService<courseManager> {
 
     Result listPage(courseManagerREQ req);
 
+    Result allCourseNameAndTeacherlist(courseManagerREQ req);
+
+    Result classCourseNameAndTeacherlist(courseManagerREQ req);
+
     Result update(courseManager CourseManager);
 
     Result viewById(String id);
@@ -19,7 +23,7 @@ public interface courseManagerService extends IService<courseManager> {
 
     Result listelectiveCourse(courseManagerREQ req);
 
-    Result selectElectiveCourse(String id,String username);
+    Result selectElectiveCourse(String id, String username);
 
-    Result deleteElectiveCourse(String id,String username);
+    Result deleteElectiveCourse(String id, String username);
 }
