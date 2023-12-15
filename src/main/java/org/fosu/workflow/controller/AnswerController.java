@@ -12,29 +12,29 @@ import org.fosu.workflow.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@Api("答题申请控制层")
+@Api("简答题申请控制层")
 @ResponseBody
 @RestController
 @RequestMapping("/answer")
 public class AnswerController {
     @Autowired
     AnswerService answerService;
-    @ApiOperation("新增答题申请")
+    @ApiOperation("新增简答题申请")
     @PostMapping
     public Result add(@RequestBody Answer answer) {
         return answerService.add(answer);
     }
-    @ApiOperation("查询答题请列表")
+    @ApiOperation("查询简答题请列表")
     @PostMapping("/list")
     public Result listPage(@RequestBody AnswerREQ req) {
         return answerService.listPage(req);
     }
-    @ApiOperation("更新选择题详情信息")
+    @ApiOperation("更新简答题详情信息")
     @PutMapping
     public Result update(@RequestBody Answer answer) {
         return answerService.update(answer);
     }
-    @ApiOperation("查询选择题详情信息")
+    @ApiOperation("查询简答题详情信息")
     @GetMapping("/{id}")
     public Result view(@PathVariable String id) {
         Answer entity = answerService.getById(id);
