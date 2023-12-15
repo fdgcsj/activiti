@@ -10,6 +10,7 @@
         <result column="course_id" property="courseId"/>
         <result column="creator" property="creator"/>
         <result column="create_date" property="createDate"/>
+        <result column="start_date" property="startDate"/>
         <result column="end_date" property="endDate"/>
     </resultMap>
     <select id="getPaperList" resultMap="PaperList">

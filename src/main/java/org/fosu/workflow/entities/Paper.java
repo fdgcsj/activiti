@@ -25,6 +25,8 @@ public class Paper {
     private String creator;
     @ApiModelProperty("创建时间")
     private Date createDate;
+    @ApiModelProperty("开始答题时间")
+    private Date startDate;
     @ApiModelProperty("结束答题时间")
     private Date endDate;
 }
