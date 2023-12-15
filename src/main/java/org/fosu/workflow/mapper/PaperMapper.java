@@ -8,4 +8,5 @@ import org.fosu.workflow.req.PaperREQ;
 
 public interface PaperMapper extends BaseMapper<Paper> {
     IPage<Paper> getPaperList(IPage page, @Param("req") PaperREQ req);
+    IPage<Paper> getStudentPaperList(IPage page, @Param("req") PaperREQ req);
 }

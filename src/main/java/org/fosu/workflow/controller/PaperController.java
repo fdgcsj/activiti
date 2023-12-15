@@ -29,6 +29,11 @@ public class PaperController {
     public Result listPage(@RequestBody PaperREQ req) {
         return paperService.listPage(req);
     }
+    @ApiOperation("查询学生试卷列表")
+    @PostMapping("/studentPaperList")
+    public Result getStudentPaperList(@RequestBody PaperREQ req) {
+        return paperService.getStudentPaperList(req);
+    }
     @ApiOperation("更新试卷详情信息")
     @PutMapping
     public Result update(@RequestBody Paper paper) {

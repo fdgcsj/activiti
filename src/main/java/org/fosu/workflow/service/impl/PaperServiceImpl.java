@@ -34,6 +34,12 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper> implements
         return Result.ok(page);
     }
 
+  @Override
+    public Result getStudentPaperList(PaperREQ req) {
+        IPage<Paper> page = baseMapper.getStudentPaperList(req.getPage(), req);
+        return Result.ok(page);
+    }
+
     @Override
     public Result update(Paper paper) {
         if (paper == null || StringUtils.isEmpty(paper.getId())) {

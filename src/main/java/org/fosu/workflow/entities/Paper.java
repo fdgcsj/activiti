@@ -1,6 +1,7 @@
 package org.fosu.workflow.entities;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -23,6 +24,12 @@ public class Paper {
     private String courseId;
     @ApiModelProperty("创建人用户名")
     private String creator;
+    @TableField(exist = false)
+    @ApiModelProperty("创建人姓名")
+    private String nick_name;
+    @TableField(exist = false)
+    @ApiModelProperty("班级总人数")
+    private String size;
     @ApiModelProperty("创建时间")
     private Date createDate;
     @ApiModelProperty("开始答题时间")

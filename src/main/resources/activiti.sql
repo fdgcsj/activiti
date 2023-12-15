@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 16/12/2023 06:14:06
+ Date: 16/12/2023 07:42:36
 */
 
 SET NAMES utf8mb4;
@@ -1357,11 +1357,11 @@ CREATE TABLE `mxg_paper`  (
 -- ----------------------------
 -- Records of mxg_paper
 -- ----------------------------
-INSERT INTO `mxg_paper` VALUES ('1', '测试卷1', 1, '线性代数', 'admin', '2023-12-10 00:00:00', '2023-12-16 04:51:16', '2023-12-16 04:51:19');
-INSERT INTO `mxg_paper` VALUES ('1733843482219978753', '试卷3', 1, '线性代数', 'admin', '2023-12-10 00:00:00', NULL, NULL);
-INSERT INTO `mxg_paper` VALUES ('1733843493997584385', '试卷4', 1, '线性代数', 'admin', '2023-12-10 00:00:00', NULL, NULL);
-INSERT INTO `mxg_paper` VALUES ('2', '测试卷2', 2, '高等数学', 'admin', '2023-12-10 00:00:00', '2023-12-16 04:51:23', '2023-12-16 04:51:26');
-INSERT INTO `mxg_paper` VALUES ('3', '期末考试', 0, '高等数学', 'admin', '2023-12-16 06:06:00', '2023-12-16 05:50:51', '2023-12-16 05:50:51');
+INSERT INTO `mxg_paper` VALUES ('1', '测试卷1', 1, '线性代数', 'zhangsan', '2023-12-10 00:00:00', '2023-12-16 04:51:16', '2023-12-16 04:51:19');
+INSERT INTO `mxg_paper` VALUES ('1733843482219978753', '试卷3', 1, '线性代数', 'lisi', '2023-12-10 00:00:00', NULL, NULL);
+INSERT INTO `mxg_paper` VALUES ('1733843493997584385', '试卷4', 1, '线性代数', 'wangwu', '2023-12-10 00:00:00', NULL, NULL);
+INSERT INTO `mxg_paper` VALUES ('2', '测试卷2', 2, '高等数学', 'zhangsan', '2023-12-10 00:00:00', '2023-12-16 04:51:23', '2023-12-16 04:51:26');
+INSERT INTO `mxg_paper` VALUES ('3', '期末考试', 0, '高等数学', 'zhangsan', '2023-12-16 06:06:00', '2023-12-16 05:50:51', '2023-12-16 05:50:51');
 
 -- ----------------------------
 -- Table structure for mxg_process_config

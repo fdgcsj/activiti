@@ -9,21 +9,48 @@
         <result column="type" property="type"/>
         <result column="course_id" property="courseId"/>
         <result column="creator" property="creator"/>
+        <result column="nick_name" property="nick_name"/>
+        <result column="size" property="size"/>
         <result column="create_date" property="createDate"/>
         <result column="start_date" property="startDate"/>
         <result column="end_date" property="endDate"/>
     </resultMap>
     <select id="getPaperList" resultMap="PaperList">
-        SELECT *
-        FROM mxg_paper
-        WHERE course_id = #{req.courseId}
+        SELECT t3.*,t4.nick_name as nick_name, (SELECT COUNT(*) FROM (
+        SELECT t1.name,t1.tch_id,t1.class_id,t2.name as nick_name
+        FROM mxg_course t1
+        LEFT JOIN mxg_student t2
+        ON t1.class_id=t2.class
+        WHERE t1.tch_id = #{req.creator} AND t1.name = t3.course_id
+        GROUP BY t1.name,t1.tch_id,t1.class_id,t2.name
+        ) AS subquery) AS size
+        FROM mxg_paper t3
+        LEFT JOIN mxg_teacher t4
+        ON t4.name=#{req.creator}
+        WHERE t3.creator = #{req.creator}
+        <if test="req.courseId != null and req.courseId != ''">
+            AND t3.course_id LIKE CONCAT('%', #{req.courseId}, '%')
+        </if>
         <if test="req.title != null and req.title != ''">
-            AND title LIKE CONCAT('%', #{req.title}, '%')
+            AND t3.title LIKE CONCAT('%', #{req.title}, '%')
         </if>
-        <if test="req.type != null">
-            AND type = #{req.type}
+        ORDER BY t3.create_date DESC
+    </select>
+    <select id="getStudentPaperList" resultMap="PaperList">
+        SELECT t3.id,t3.course_id,t3.title,t3.type,t3.creator,t3.create_date,t3.start_date,t3.end_date
+        FROM mxg_paper t3
+                 LEFT JOIN mxg_student t5
+                           ON t5.name=#{req.creator}
+                 LEFT JOIN mxg_course t6
+                           ON t6.class_id=t5.class
+        WHERE t3.creator = t6.tch_id
+        <if test="req.courseId != null and req.courseId != ''">
+            AND t3.course_id LIKE CONCAT('%', #{req.courseId}, '%')
         </if>
-        AND creator = #{req.creator}
-        ORDER BY create_date DESC
+        <if test="req.title != null and req.title != ''">
+            AND t3.title LIKE CONCAT('%', #{req.title}, '%')
+        </if>
+        GROUP BY t3.id,t3.course_id,t3.title,t3.type,t3.creator,t3.create_date,t3.start_date,t3.end_date
+        ORDER BY t3.create_date DESC
     </select>
 </mapper>

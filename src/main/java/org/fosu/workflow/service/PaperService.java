@@ -10,5 +10,6 @@ import org.fosu.workflow.utils.Result;
 public interface PaperService extends IService<Paper> {
     Result add(Paper paper);
     Result listPage(PaperREQ req);
+    Result getStudentPaperList(PaperREQ req);
     Result update(Paper paper);
 }
