@@ -13,6 +13,8 @@ import java.util.ArrayList;
 public interface ClassMapper extends BaseMapper<Class> {
     ArrayList<Class> getAllClasses();
 
+    ArrayList<Class> getTeacherCourse(String username);
+
     ArrayList<Class> getTeacherClasses(String username);
 
 

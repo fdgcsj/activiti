@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 16/12/2023 04:52:25
+ Date: 16/12/2023 06:14:06
 */
 
 SET NAMES utf8mb4;
@@ -1115,16 +1115,15 @@ CREATE TABLE `mxg_answer`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_answer_paper_id`(`paper_id`) USING BTREE,
   INDEX `fk_answer_creator`(`creator`) USING BTREE,
-  CONSTRAINT `fk_answer_creator` FOREIGN KEY (`creator`) REFERENCES `sys_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_answer_paper_id` FOREIGN KEY (`paper_id`) REFERENCES `mxg_paper` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_answer_creator` FOREIGN KEY (`creator`) REFERENCES `sys_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of mxg_answer
 -- ----------------------------
-INSERT INTO `mxg_answer` VALUES ('1735667672115884033', '1', '1735665317794328577', '内容1', 0, 'admin');
-INSERT INTO `mxg_answer` VALUES ('1735667969479454722', '1', '1735665403739811842', '内容2', 0, 'admin');
-INSERT INTO `mxg_answer` VALUES ('1735668035611045889', '1', '1735665444156125185', '内容3', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735667672115884033', '高等数学', '1735665317794328577', '内容1', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735667969479454722', '高等数学', '1735665403739811842', '内容2', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735668035611045889', '高等数学', '1735665444156125185', '内容3', 0, 'admin');
 
 -- ----------------------------
 -- Table structure for mxg_business_status
@@ -1213,6 +1212,7 @@ CREATE TABLE `mxg_course`  (
   INDEX `fk_course_class_id`(`class_id`) USING BTREE,
   INDEX `fk_course_teacher_id`(`tch_id`) USING BTREE,
   INDEX `fk_tch_nick_name`(`nick_name`) USING BTREE,
+  INDEX `name`(`name`) USING BTREE,
   CONSTRAINT `fk_class_id` FOREIGN KEY (`class_id`) REFERENCES `mxg_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_tch_id` FOREIGN KEY (`tch_id`) REFERENCES `mxg_teacher` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_tch_nick_name` FOREIGN KEY (`nick_name`) REFERENCES `mxg_teacher` (`nick_name`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -1351,17 +1351,17 @@ CREATE TABLE `mxg_paper`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_paper_course_id`(`course_id`) USING BTREE,
   INDEX `fk_paper_creator`(`creator`) USING BTREE,
-  CONSTRAINT `fk_paper_course_id` FOREIGN KEY (`course_id`) REFERENCES `mxg_course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_paper_creator` FOREIGN KEY (`creator`) REFERENCES `sys_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of mxg_paper
 -- ----------------------------
-INSERT INTO `mxg_paper` VALUES ('1', '测试卷1', 1, '1', 'admin', '2023-12-10 00:00:00', '2023-12-16 04:51:16', '2023-12-16 04:51:19');
-INSERT INTO `mxg_paper` VALUES ('1733843482219978753', '试卷3', 1, '2', 'admin', '2023-12-10 00:00:00', NULL, NULL);
-INSERT INTO `mxg_paper` VALUES ('1733843493997584385', '试卷4', 1, '2', 'admin', '2023-12-10 00:00:00', NULL, NULL);
-INSERT INTO `mxg_paper` VALUES ('2', '测试卷2', 2, '1', 'admin', '2023-12-10 00:00:00', '2023-12-16 04:51:23', '2023-12-16 04:51:26');
+INSERT INTO `mxg_paper` VALUES ('1', '测试卷1', 1, '线性代数', 'admin', '2023-12-10 00:00:00', '2023-12-16 04:51:16', '2023-12-16 04:51:19');
+INSERT INTO `mxg_paper` VALUES ('1733843482219978753', '试卷3', 1, '线性代数', 'admin', '2023-12-10 00:00:00', NULL, NULL);
+INSERT INTO `mxg_paper` VALUES ('1733843493997584385', '试卷4', 1, '线性代数', 'admin', '2023-12-10 00:00:00', NULL, NULL);
+INSERT INTO `mxg_paper` VALUES ('2', '测试卷2', 2, '高等数学', 'admin', '2023-12-10 00:00:00', '2023-12-16 04:51:23', '2023-12-16 04:51:26');
+INSERT INTO `mxg_paper` VALUES ('3', '期末考试', 0, '高等数学', 'admin', '2023-12-16 06:06:00', '2023-12-16 05:50:51', '2023-12-16 05:50:51');
 
 -- ----------------------------
 -- Table structure for mxg_process_config
@@ -1400,16 +1400,15 @@ CREATE TABLE `mxg_question_choice`  (
   `score` int NULL DEFAULT NULL,
   `create_date` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `fk_que_choice_paper_id`(`paper_id`) USING BTREE,
-  CONSTRAINT `fk_que_choice_paper_id` FOREIGN KEY (`paper_id`) REFERENCES `mxg_paper` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `fk_que_choice_paper_id`(`paper_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of mxg_question_choice
 -- ----------------------------
-INSERT INTO `mxg_question_choice` VALUES ('1735665317794328577', '1', '测试选择题1', '选项A', '正确选项B', '选项C', '选项D', 2, 5, '2023-12-15 00:00:00');
-INSERT INTO `mxg_question_choice` VALUES ('1735665403739811842', '1', '测试选择题2', '正确选项A', '选项B', '选项C', '选项D', 1, 5, '2023-12-15 00:00:00');
-INSERT INTO `mxg_question_choice` VALUES ('1735665444156125185', '1', '测试选择题3', '选项A', '选项B', '选项C', '正确选项D', 4, 5, '2023-12-15 00:00:00');
+INSERT INTO `mxg_question_choice` VALUES ('1735665317794328577', '高等数学', '测试选择题1', '选项A', '正确选项B', '选项C', '选项D', 2, 5, '2023-12-15 00:00:00');
+INSERT INTO `mxg_question_choice` VALUES ('1735665403739811842', '高等数学', '测试选择题2', '正确选项A', '选项B', '选项C', '选项D', 1, 5, '2023-12-15 00:00:00');
+INSERT INTO `mxg_question_choice` VALUES ('1735665444156125185', '高等数学', '测试选择题3', '选项A', '选项B', '选项C', '正确选项D', 4, 5, '2023-12-15 00:00:00');
 
 -- ----------------------------
 -- Table structure for mxg_speak

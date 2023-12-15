@@ -42,6 +42,18 @@ public class courseManagerController {
         return classService.getAllClasses();
     }
 
+    @ApiOperation("获取当前教师的所有课程")
+    @PostMapping("/teacherCourse")
+    public Result getTeacherCourse() {
+        return classService.getTeacherCourse(UserUtils.getUsername());
+    }
+
+    @ApiOperation("获取指定教师的课程的所有班级学生")
+    @GetMapping("/{courseName}/allStudents")
+    public Result getAllStudents(@PathVariable String courseName) {
+        return CourseManagerService.getAllStudents(courseName,UserUtils.getUsername());
+    }
+
     @ApiOperation("获取指定班级的所有学生")
     @GetMapping("/classes/{classId}/students")
     public Result getStudentsByClass(@PathVariable String classId) {

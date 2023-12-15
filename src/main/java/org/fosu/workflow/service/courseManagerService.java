@@ -11,6 +11,8 @@ public interface courseManagerService extends IService<courseManager> {
 
     Result listPage(courseManagerREQ req);
 
+    Result getAllStudents(String courseName,String userName);
+
     Result allCourseNameAndTeacherlist(courseManagerREQ req);
 
     Result classCourseNameAndTeacherlist(courseManagerREQ req);

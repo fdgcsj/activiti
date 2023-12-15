@@ -7,6 +7,7 @@ import org.fosu.workflow.utils.Result;
 
 public interface ClassService extends IService<Class> {
     Result getAllClasses();
+    Result getTeacherCourse(String username);
     Result getTeacherClasses(String username);
 
 }

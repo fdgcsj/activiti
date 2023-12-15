@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.fosu.workflow.entities.Loan;
+import org.fosu.workflow.entities.Student;
 import org.fosu.workflow.entities.courseManager;
 import org.fosu.workflow.mapper.LoanMapper;
 import org.fosu.workflow.mapper.courseManagerMapper;
@@ -45,6 +46,10 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
         return Result.ok(page);
     }
 
+    public Result getAllStudents(String courseName,String userName) {
+        ArrayList<courseManager> studentList = baseMapper.getAllStudents(courseName,userName);
+        return Result.ok(studentList.size());
+    }
     @Override
     public Result allCourseNameAndTeacherlist(courseManagerREQ req) {
         if (StringUtils.isEmpty(req.getUsername())) {
