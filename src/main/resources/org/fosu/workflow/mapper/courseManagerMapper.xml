@@ -60,7 +60,7 @@
         GROUP BY name, nick_name
     </select>
     <select id="getClassInfoPage" resultMap="courseManagerAndStatusList">
-        SELECT t1.id,t1.name,t1.tch_id,t1.nick_name,t1.time,t1.room FROM mxg_course t1
+        SELECT t1.id,t1.name,t1.tch_id,t1.nick_name,t1.time,t1.room,t3.id as class_id FROM mxg_course t1
         LEFT JOIN mxg_class t3
         ON t1.class_id = t3.id
         LEFT JOIN mxg_student t4
@@ -73,9 +73,11 @@
             AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
         </if>
         UNION ALL
-        SELECT t6.* FROM mxg_student_elective_course t5
+        SELECT t6.*,t4.class as class_id FROM mxg_student_elective_course t5
         LEFT JOIN mxg_elective_course t6
         ON t5.id = t6.id
+        LEFT JOIN mxg_student t4
+        ON t4.name =t5.name
         WHERE t5.name=#{req.username}
         <if test="req.course != null and req.course != ''">
             AND t6.name LIKE CONCAT('%', #{req.course}, '%')
