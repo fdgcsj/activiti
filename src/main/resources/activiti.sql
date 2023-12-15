@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 11/12/2023 12:24:33
+ Date: 15/12/2023 22:49:45
 */
 
 SET NAMES utf8mb4;
@@ -1102,6 +1102,31 @@ INSERT INTO `act_ru_variable` VALUES ('cdc929d3-6c20-11ee-a512-6e6a773b7536', 1,
 INSERT INTO `act_ru_variable` VALUES ('cdc929d5-6c20-11ee-a512-6e6a773b7536', 1, 'json', 'entity', '18ecf410-5ad5-11ee-bbd0-6e6a773b7536', '18eb947a-5ad5-11ee-bbd0-6e6a773b7536', 'cdc8dbb2-6c20-11ee-a512-6e6a773b7536', NULL, NULL, NULL, '{\"id\":\"1702314547039215617\",\"username\":\"admin\",\"leaveType\":1,\"title\":\"测试3\",\"leaveReason\":\"121212\",\"startDate\":\"2023-09-13T16:00:00.000+00:00\",\"endDate\":\"2023-10-16T15:59:59.000+00:00\",\"duration\":33,\"createDate\":\"2023-09-14T13:33:10.000+00:00\",\"updateDate\":\"2023-09-14T13:33:40.000+00:00\",\"processInstanceId\":\"\",\"status\":0,\"endDateStr\":\"2023-10-16 23:59:59\",\"leaveTypeStr\":\"病假\",\"startDateStr\":\"2023-09-14 00:00:00\",\"updateDateStr\":\"2023-09-14 21:33:40\",\"createDateStr\":\"2023-09-14 21:33:10\",\"statusStr\":\"已撤回\"}', 'java.util.LinkedHashMap');
 
 -- ----------------------------
+-- Table structure for mxg_answer
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_answer`;
+CREATE TABLE `mxg_answer`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '唯一标识id',
+  `paper_id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '所属试卷id',
+  `question_id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '所属题目id',
+  `answer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '答案',
+  `score` int NULL DEFAULT NULL COMMENT '得分',
+  `creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '答题人',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_answer_paper_id`(`paper_id`) USING BTREE,
+  INDEX `fk_answer_creator`(`creator`) USING BTREE,
+  CONSTRAINT `fk_answer_creator` FOREIGN KEY (`creator`) REFERENCES `sys_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_answer_paper_id` FOREIGN KEY (`paper_id`) REFERENCES `mxg_paper` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_answer
+-- ----------------------------
+INSERT INTO `mxg_answer` VALUES ('1735667672115884033', '1', '1735665317794328577', '1', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735667969479454722', '1', '1735665403739811842', '1', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735668035611045889', '1', '1735665444156125185', '4', 0, 'admin');
+
+-- ----------------------------
 -- Table structure for mxg_business_status
 -- ----------------------------
 DROP TABLE IF EXISTS `mxg_business_status`;
@@ -1311,6 +1336,33 @@ INSERT INTO `mxg_message` VALUES ('3', '数值分析', 'lisi', '李四', '202003
 INSERT INTO `mxg_message` VALUES ('4', '高等数学', 'zhangsan', '张三', '202003101', 'test4', NULL);
 
 -- ----------------------------
+-- Table structure for mxg_paper
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_paper`;
+CREATE TABLE `mxg_paper`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `title` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `type` int NOT NULL COMMENT '试卷类型 1平时测试 2考试',
+  `course_id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '试卷创建者用户名',
+  `create_date` date NULL DEFAULT NULL,
+  `end_date` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_paper_course_id`(`course_id`) USING BTREE,
+  INDEX `fk_paper_creator`(`creator`) USING BTREE,
+  CONSTRAINT `fk_paper_course_id` FOREIGN KEY (`course_id`) REFERENCES `mxg_course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_paper_creator` FOREIGN KEY (`creator`) REFERENCES `sys_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_paper
+-- ----------------------------
+INSERT INTO `mxg_paper` VALUES ('1', '测试卷1', 1, '1', 'admin', '2023-12-10', NULL);
+INSERT INTO `mxg_paper` VALUES ('1733843482219978753', '试卷3', 1, '2', 'admin', '2023-12-10', NULL);
+INSERT INTO `mxg_paper` VALUES ('1733843493997584385', '试卷4', 1, '2', 'admin', '2023-12-10', NULL);
+INSERT INTO `mxg_paper` VALUES ('2', '测试卷2', 2, '1', 'admin', '2023-12-10', NULL);
+
+-- ----------------------------
 -- Table structure for mxg_process_config
 -- ----------------------------
 DROP TABLE IF EXISTS `mxg_process_config`;
@@ -1330,6 +1382,57 @@ CREATE TABLE `mxg_process_config`  (
 INSERT INTO `mxg_process_config` VALUES ('1568069386601426946', 'Leave', 'Leave', 'LeaveForm', '2022-09-09 10:50:49', '2022-09-09 10:50:49');
 INSERT INTO `mxg_process_config` VALUES ('1570292737176698882', 'Loan', 'Loan', 'LoanForm', '2022-09-15 14:05:37', '2022-09-15 14:05:37');
 INSERT INTO `mxg_process_config` VALUES ('1731198662320664578', 'courseManager', 'courseManager', 'courseManagerForm', '2023-12-03 14:28:19', '2023-12-03 14:28:19');
+
+-- ----------------------------
+-- Table structure for mxg_question_choice
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_question_choice`;
+CREATE TABLE `mxg_question_choice`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `paper_id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `choice_a` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `choice_b` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `choice_c` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `choice_d` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `answer` int NOT NULL,
+  `score` int NULL DEFAULT NULL,
+  `create_date` date NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_que_choice_paper_id`(`paper_id`) USING BTREE,
+  CONSTRAINT `fk_que_choice_paper_id` FOREIGN KEY (`paper_id`) REFERENCES `mxg_paper` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_question_choice
+-- ----------------------------
+INSERT INTO `mxg_question_choice` VALUES ('1735665317794328577', '1', '测试选择题1', '选项A', '正确选项B', '选项C', '选项D', 2, 5, '2023-12-15');
+INSERT INTO `mxg_question_choice` VALUES ('1735665403739811842', '1', '测试选择题2', '正确选项A', '选项B', '选项C', '选项D', 1, 5, '2023-12-15');
+INSERT INTO `mxg_question_choice` VALUES ('1735665444156125185', '1', '测试选择题3', '选项A', '选项B', '选项C', '正确选项D', 4, 5, '2023-12-15');
+
+-- ----------------------------
+-- Table structure for mxg_speak
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_speak`;
+CREATE TABLE `mxg_speak`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '唯一标识id',
+  `talk_id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '所属课程id',
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '发言内容',
+  `speaker` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '发言人用户名',
+  `create_date` date NULL DEFAULT NULL COMMENT '发言时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_speak_talk_id`(`talk_id`) USING BTREE,
+  INDEX `fk_speak_speaker`(`speaker`) USING BTREE,
+  CONSTRAINT `fk_speak_speaker` FOREIGN KEY (`speaker`) REFERENCES `sys_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_speak_talk_id` FOREIGN KEY (`talk_id`) REFERENCES `mxg_talk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_speak
+-- ----------------------------
+INSERT INTO `mxg_speak` VALUES ('1', '1', '66623', 'admin', '2023-12-06');
+INSERT INTO `mxg_speak` VALUES ('1732778348219310081', '1', 'text0', 'admin', '2023-12-07');
+INSERT INTO `mxg_speak` VALUES ('2', '1732049547533283329', '222', 'admin', '2023-12-06');
 
 -- ----------------------------
 -- Table structure for mxg_student
@@ -1405,6 +1508,35 @@ INSERT INTO `mxg_student_elective_course` VALUES ('4', 'xuesheng11', '学生11',
 INSERT INTO `mxg_student_elective_course` VALUES ('1', 'xuesheng13', '学生13', '20200310103');
 INSERT INTO `mxg_student_elective_course` VALUES ('2', 'xuesheng12', '学生12', '20200310102');
 INSERT INTO `mxg_student_elective_course` VALUES ('1', 'xuesheng11', '学生11', '20200310101');
+
+-- ----------------------------
+-- Table structure for mxg_talk
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_talk`;
+CREATE TABLE `mxg_talk`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '唯一标识id',
+  `course_id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '所属课程id',
+  `title` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '标题',
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '发言内容',
+  `creator` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '发言人用户名',
+  `create_date` date NULL DEFAULT NULL COMMENT '发言时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_talk_course_id`(`course_id`) USING BTREE,
+  INDEX `fk_talk_creator`(`creator`) USING BTREE,
+  CONSTRAINT `fk_talk_course_id` FOREIGN KEY (`course_id`) REFERENCES `mxg_course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_talk_creator` FOREIGN KEY (`creator`) REFERENCES `sys_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_talk
+-- ----------------------------
+INSERT INTO `mxg_talk` VALUES ('0', '1', 'title0', 'text0', 'admin', '2023-12-07');
+INSERT INTO `mxg_talk` VALUES ('1', '1', 'talk1', 'text1', 'admin', '2023-12-01');
+INSERT INTO `mxg_talk` VALUES ('1732049547533283329', '1', 'title2', 'text2', 'admin', '2023-12-05');
+INSERT INTO `mxg_talk` VALUES ('2', '1', 'talk2', 'text2', 'admin', '2023-12-05');
+INSERT INTO `mxg_talk` VALUES ('3', '2', 'talk1', 'text1', 'zhangsan', '2023-12-01');
+INSERT INTO `mxg_talk` VALUES ('4', '1', 'title2', 'text2', 'admin', '2023-12-05');
+INSERT INTO `mxg_talk` VALUES ('4123', '1', 'title666', 'text666', 'admin', '2023-12-07');
 
 -- ----------------------------
 -- Table structure for mxg_teacher

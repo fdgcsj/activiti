@@ -10,7 +10,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@ApiModel("请假申请实体类")
+@ApiModel("回复实体类")
 @TableName("mxg_talk")
 public class Talk {
     @TableId(value = "id", type = IdType.ASSIGN_ID)
