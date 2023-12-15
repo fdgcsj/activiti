@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 15/12/2023 22:49:45
+ Date: 16/12/2023 04:52:25
 */
 
 SET NAMES utf8mb4;
@@ -1122,9 +1122,9 @@ CREATE TABLE `mxg_answer`  (
 -- ----------------------------
 -- Records of mxg_answer
 -- ----------------------------
-INSERT INTO `mxg_answer` VALUES ('1735667672115884033', '1', '1735665317794328577', '1', 0, 'admin');
-INSERT INTO `mxg_answer` VALUES ('1735667969479454722', '1', '1735665403739811842', '1', 0, 'admin');
-INSERT INTO `mxg_answer` VALUES ('1735668035611045889', '1', '1735665444156125185', '4', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735667672115884033', '1', '1735665317794328577', '内容1', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735667969479454722', '1', '1735665403739811842', '内容2', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735668035611045889', '1', '1735665444156125185', '内容3', 0, 'admin');
 
 -- ----------------------------
 -- Table structure for mxg_business_status
@@ -1250,10 +1250,10 @@ CREATE TABLE `mxg_elective_course`  (
 -- ----------------------------
 -- Records of mxg_elective_course
 -- ----------------------------
-INSERT INTO `mxg_elective_course` VALUES ('1', '创新思维训练', 'zhangsan', '张三', '1-8周 周三 9:40-11:50', 'C4-116');
-INSERT INTO `mxg_elective_course` VALUES ('2', '影视鉴赏', 'lisi', '李四', '1-8周 周三 8:00-9:25', 'C4-116');
-INSERT INTO `mxg_elective_course` VALUES ('3', '古典文学鉴赏', 'wangwu', '王五', '9-16周 周三 9:40-11:50', 'C4-216');
-INSERT INTO `mxg_elective_course` VALUES ('4', '创新思维与创新方法', 'wangwu', '王五', '9-16周 周三 13:30-14:55', 'C4-216');
+INSERT INTO `mxg_elective_course` VALUES ('1000000', '创新思维训练', 'zhangsan', '张三', '1-8周 周三 9:40-11:50', 'C4-116');
+INSERT INTO `mxg_elective_course` VALUES ('1000001', '影视鉴赏', 'lisi', '李四', '1-8周 周三 8:00-9:25', 'C4-116');
+INSERT INTO `mxg_elective_course` VALUES ('1000002', '古典文学鉴赏', 'wangwu', '王五', '9-16周 周三 9:40-11:50', 'C4-216');
+INSERT INTO `mxg_elective_course` VALUES ('1000003', '创新思维与创新方法', 'wangwu', '王五', '9-16周 周三 13:30-14:55', 'C4-216');
 
 -- ----------------------------
 -- Table structure for mxg_leave
@@ -1345,8 +1345,9 @@ CREATE TABLE `mxg_paper`  (
   `type` int NOT NULL COMMENT '试卷类型 1平时测试 2考试',
   `course_id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `creator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '试卷创建者用户名',
-  `create_date` date NULL DEFAULT NULL,
-  `end_date` datetime NULL DEFAULT NULL,
+  `create_date` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `start_date` datetime NULL DEFAULT NULL COMMENT '开始时间',
+  `end_date` datetime NULL DEFAULT NULL COMMENT '结束时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_paper_course_id`(`course_id`) USING BTREE,
   INDEX `fk_paper_creator`(`creator`) USING BTREE,
@@ -1357,10 +1358,10 @@ CREATE TABLE `mxg_paper`  (
 -- ----------------------------
 -- Records of mxg_paper
 -- ----------------------------
-INSERT INTO `mxg_paper` VALUES ('1', '测试卷1', 1, '1', 'admin', '2023-12-10', NULL);
-INSERT INTO `mxg_paper` VALUES ('1733843482219978753', '试卷3', 1, '2', 'admin', '2023-12-10', NULL);
-INSERT INTO `mxg_paper` VALUES ('1733843493997584385', '试卷4', 1, '2', 'admin', '2023-12-10', NULL);
-INSERT INTO `mxg_paper` VALUES ('2', '测试卷2', 2, '1', 'admin', '2023-12-10', NULL);
+INSERT INTO `mxg_paper` VALUES ('1', '测试卷1', 1, '1', 'admin', '2023-12-10 00:00:00', '2023-12-16 04:51:16', '2023-12-16 04:51:19');
+INSERT INTO `mxg_paper` VALUES ('1733843482219978753', '试卷3', 1, '2', 'admin', '2023-12-10 00:00:00', NULL, NULL);
+INSERT INTO `mxg_paper` VALUES ('1733843493997584385', '试卷4', 1, '2', 'admin', '2023-12-10 00:00:00', NULL, NULL);
+INSERT INTO `mxg_paper` VALUES ('2', '测试卷2', 2, '1', 'admin', '2023-12-10 00:00:00', '2023-12-16 04:51:23', '2023-12-16 04:51:26');
 
 -- ----------------------------
 -- Table structure for mxg_process_config
@@ -1397,7 +1398,7 @@ CREATE TABLE `mxg_question_choice`  (
   `choice_d` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `answer` int NOT NULL,
   `score` int NULL DEFAULT NULL,
-  `create_date` date NULL DEFAULT NULL,
+  `create_date` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_que_choice_paper_id`(`paper_id`) USING BTREE,
   CONSTRAINT `fk_que_choice_paper_id` FOREIGN KEY (`paper_id`) REFERENCES `mxg_paper` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -1406,9 +1407,9 @@ CREATE TABLE `mxg_question_choice`  (
 -- ----------------------------
 -- Records of mxg_question_choice
 -- ----------------------------
-INSERT INTO `mxg_question_choice` VALUES ('1735665317794328577', '1', '测试选择题1', '选项A', '正确选项B', '选项C', '选项D', 2, 5, '2023-12-15');
-INSERT INTO `mxg_question_choice` VALUES ('1735665403739811842', '1', '测试选择题2', '正确选项A', '选项B', '选项C', '选项D', 1, 5, '2023-12-15');
-INSERT INTO `mxg_question_choice` VALUES ('1735665444156125185', '1', '测试选择题3', '选项A', '选项B', '选项C', '正确选项D', 4, 5, '2023-12-15');
+INSERT INTO `mxg_question_choice` VALUES ('1735665317794328577', '1', '测试选择题1', '选项A', '正确选项B', '选项C', '选项D', 2, 5, '2023-12-15 00:00:00');
+INSERT INTO `mxg_question_choice` VALUES ('1735665403739811842', '1', '测试选择题2', '正确选项A', '选项B', '选项C', '选项D', 1, 5, '2023-12-15 00:00:00');
+INSERT INTO `mxg_question_choice` VALUES ('1735665444156125185', '1', '测试选择题3', '选项A', '选项B', '选项C', '正确选项D', 4, 5, '2023-12-15 00:00:00');
 
 -- ----------------------------
 -- Table structure for mxg_speak
@@ -1419,7 +1420,7 @@ CREATE TABLE `mxg_speak`  (
   `talk_id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '所属课程id',
   `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '发言内容',
   `speaker` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '发言人用户名',
-  `create_date` date NULL DEFAULT NULL COMMENT '发言时间',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '发言时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_speak_talk_id`(`talk_id`) USING BTREE,
   INDEX `fk_speak_speaker`(`speaker`) USING BTREE,
@@ -1430,9 +1431,10 @@ CREATE TABLE `mxg_speak`  (
 -- ----------------------------
 -- Records of mxg_speak
 -- ----------------------------
-INSERT INTO `mxg_speak` VALUES ('1', '1', '66623', 'admin', '2023-12-06');
-INSERT INTO `mxg_speak` VALUES ('1732778348219310081', '1', 'text0', 'admin', '2023-12-07');
-INSERT INTO `mxg_speak` VALUES ('2', '1732049547533283329', '222', 'admin', '2023-12-06');
+INSERT INTO `mxg_speak` VALUES ('1', '1', '66623', 'admin', '2023-12-06 00:00:00');
+INSERT INTO `mxg_speak` VALUES ('1732778348219310081', '1', 'text0', 'admin', '2023-12-07 00:00:00');
+INSERT INTO `mxg_speak` VALUES ('1735753519748657153', '0', '测试', 'admin', '2023-12-16 04:07:42');
+INSERT INTO `mxg_speak` VALUES ('2', '1732049547533283329', '222', 'admin', '2023-12-06 00:00:00');
 
 -- ----------------------------
 -- Table structure for mxg_student
@@ -1501,13 +1503,13 @@ CREATE TABLE `mxg_student_elective_course`  (
 -- ----------------------------
 -- Records of mxg_student_elective_course
 -- ----------------------------
-INSERT INTO `mxg_student_elective_course` VALUES ('1', 'xuesheng12', '学生12', '20200310102');
-INSERT INTO `mxg_student_elective_course` VALUES ('2', 'xuesheng11', '学生11', '20200310101');
-INSERT INTO `mxg_student_elective_course` VALUES ('3', 'xuesheng11', '学生11', '20200310101');
-INSERT INTO `mxg_student_elective_course` VALUES ('4', 'xuesheng11', '学生11', '20200310101');
-INSERT INTO `mxg_student_elective_course` VALUES ('1', 'xuesheng13', '学生13', '20200310103');
-INSERT INTO `mxg_student_elective_course` VALUES ('2', 'xuesheng12', '学生12', '20200310102');
-INSERT INTO `mxg_student_elective_course` VALUES ('1', 'xuesheng11', '学生11', '20200310101');
+INSERT INTO `mxg_student_elective_course` VALUES ('1000000', 'xuesheng12', '学生12', '20200310102');
+INSERT INTO `mxg_student_elective_course` VALUES ('1000001', 'xuesheng11', '学生11', '20200310101');
+INSERT INTO `mxg_student_elective_course` VALUES ('1000002', 'xuesheng11', '学生11', '20200310101');
+INSERT INTO `mxg_student_elective_course` VALUES ('1000003', 'xuesheng11', '学生11', '20200310101');
+INSERT INTO `mxg_student_elective_course` VALUES ('1000000', 'xuesheng13', '学生13', '20200310103');
+INSERT INTO `mxg_student_elective_course` VALUES ('1000001', 'xuesheng12', '学生12', '20200310102');
+INSERT INTO `mxg_student_elective_course` VALUES ('1000000', 'xuesheng11', '学生11', '20200310101');
 
 -- ----------------------------
 -- Table structure for mxg_talk
@@ -1519,7 +1521,7 @@ CREATE TABLE `mxg_talk`  (
   `title` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '标题',
   `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '发言内容',
   `creator` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '发言人用户名',
-  `create_date` date NULL DEFAULT NULL COMMENT '发言时间',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '发言时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_talk_course_id`(`course_id`) USING BTREE,
   INDEX `fk_talk_creator`(`creator`) USING BTREE,
@@ -1530,13 +1532,14 @@ CREATE TABLE `mxg_talk`  (
 -- ----------------------------
 -- Records of mxg_talk
 -- ----------------------------
-INSERT INTO `mxg_talk` VALUES ('0', '1', 'title0', 'text0', 'admin', '2023-12-07');
-INSERT INTO `mxg_talk` VALUES ('1', '1', 'talk1', 'text1', 'admin', '2023-12-01');
-INSERT INTO `mxg_talk` VALUES ('1732049547533283329', '1', 'title2', 'text2', 'admin', '2023-12-05');
-INSERT INTO `mxg_talk` VALUES ('2', '1', 'talk2', 'text2', 'admin', '2023-12-05');
-INSERT INTO `mxg_talk` VALUES ('3', '2', 'talk1', 'text1', 'zhangsan', '2023-12-01');
-INSERT INTO `mxg_talk` VALUES ('4', '1', 'title2', 'text2', 'admin', '2023-12-05');
-INSERT INTO `mxg_talk` VALUES ('4123', '1', 'title666', 'text666', 'admin', '2023-12-07');
+INSERT INTO `mxg_talk` VALUES ('0', '1', 'title0', 'text0', 'admin', '2023-12-07 00:00:00');
+INSERT INTO `mxg_talk` VALUES ('1', '1', 'talk1', 'text1', 'admin', '2023-12-01 00:00:00');
+INSERT INTO `mxg_talk` VALUES ('1732049547533283329', '1', 'title2', 'text2', 'admin', '2023-12-05 00:00:00');
+INSERT INTO `mxg_talk` VALUES ('1735753984402042882', '7', '测试内容', '测试标题', 'admin', '2023-12-16 04:09:33');
+INSERT INTO `mxg_talk` VALUES ('2', '1', 'talk2', 'text2', 'admin', '2023-12-05 00:00:00');
+INSERT INTO `mxg_talk` VALUES ('3', '2', 'talk1', 'text1', 'zhangsan', '2023-12-01 00:00:00');
+INSERT INTO `mxg_talk` VALUES ('4', '1', 'title2', 'text2', 'admin', '2023-12-05 00:00:00');
+INSERT INTO `mxg_talk` VALUES ('4123', '1', 'title666', 'text666', 'admin', '2023-12-07 00:00:00');
 
 -- ----------------------------
 -- Table structure for mxg_teacher
