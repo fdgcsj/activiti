@@ -26,4 +26,8 @@ public interface courseManagerService extends IService<courseManager> {
     Result selectElectiveCourse(String id, String username);
 
     Result deleteElectiveCourse(String id, String username);
+
+    Result allCourseNameAndTeacherAndClasslist(courseManagerREQ req);
+
+    Result classCourseNameAndTeacherAndClasslist(courseManagerREQ req);
 }

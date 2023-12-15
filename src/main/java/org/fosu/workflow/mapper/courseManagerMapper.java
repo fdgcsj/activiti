@@ -14,7 +14,7 @@ public interface courseManagerMapper extends BaseMapper<courseManager> {
 
     IPage<courseManager> getallCourseNameAndTeacherlist(IPage<courseManager> page, @Param("req") courseManagerREQ req);
 
-    IPage<courseManager> getClassCourseNameAndTeacherlist(Page page, courseManagerREQ req);
+    IPage<courseManager> getClassCourseNameAndTeacherlist(IPage<courseManager> page, @Param("req") courseManagerREQ req);
 
     IPage<courseManager> getClassInfoPage(IPage<courseManager> page, @Param("req") courseManagerREQ req);
 
@@ -26,4 +26,7 @@ public interface courseManagerMapper extends BaseMapper<courseManager> {
 
     void deleteElectiveCourse(String id, String username);
 
+    IPage<courseManager> allCourseNameAndTeacherAndClasslist(IPage<courseManager> page, @Param("req") courseManagerREQ req);
+
+    IPage<courseManager> classCourseNameAndTeacherAndClasslist(IPage<courseManager> page, @Param("req") courseManagerREQ req);
 }

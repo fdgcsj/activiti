@@ -113,5 +113,30 @@
         DELETE FROM mxg_student_elective_course
         WHERE id = #{id} AND name = #{username}
     </delete>
-
+    <select id="allCourseNameAndTeacherAndClasslist" resultMap="courseManagerAndStatusList">
+        SELECT MIN(id) as id,name, nick_name,class_id
+        FROM mxg_course
+        WHERE 1=1
+        <if test="req.course != null and req.course != ''">
+            AND name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+        GROUP BY name, nick_name,class_id
+    </select>
+    <select id="classCourseNameAndTeacherAndClasslist" resultMap="courseManagerAndStatusList">
+        SELECT MIN(t1.id) as id,t1.name, t1.nick_name,class_id
+        FROM mxg_course t1
+        LEFT JOIN mxg_student t4
+        ON t4.class = t1.class_id
+        WHERE t4.name=#{req.username}
+        <if test="req.course != null and req.course != ''">
+            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+        GROUP BY name, nick_name,class_id
+    </select>
 </mapper>

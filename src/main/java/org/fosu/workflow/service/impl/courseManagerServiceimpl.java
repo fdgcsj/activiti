@@ -114,4 +114,21 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
         return Result.ok();
     }
 
+    @Override
+    public Result allCourseNameAndTeacherAndClasslist(courseManagerREQ req) {
+        if (StringUtils.isEmpty(req.getUsername())) {
+            req.setUsername(UserUtils.getUsername());
+        }
+        IPage<courseManager> page = baseMapper.allCourseNameAndTeacherAndClasslist(req.getPage(), req);
+        return Result.ok(page);
+    }
+
+    @Override
+    public Result classCourseNameAndTeacherAndClasslist(courseManagerREQ req) {
+        if (StringUtils.isEmpty(req.getUsername())) {
+            req.setUsername(UserUtils.getUsername());
+        }
+        IPage<courseManager> page = baseMapper.classCourseNameAndTeacherAndClasslist(req.getPage(), req);
+        return Result.ok(page);
+    }
 }

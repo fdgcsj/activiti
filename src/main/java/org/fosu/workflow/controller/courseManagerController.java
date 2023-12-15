@@ -100,4 +100,16 @@ public class courseManagerController {
     public Result deleteElectiveCourse(@PathVariable String id) {
         return Result.ok(CourseManagerService.deleteElectiveCourse(id,UserUtils.getUsername()));
     }
+
+    @ApiOperation("查询所有课程名称和任课老师和班级唯一的列表")
+    @PostMapping("/allCourseNameAndTeacherAndClasslist")
+    public Result allCourseNameAndTeacherAndClasslist(@RequestBody courseManagerREQ req) {
+        return CourseManagerService.allCourseNameAndTeacherAndClasslist(req);
+    }
+
+    @ApiOperation("查询班级的课程名称和任课老师和班级唯一的列表")
+    @PostMapping("/classCourseNameAndTeacherAndClasslist")
+    public Result classCourseNameAndTeacherAndClasslist(@RequestBody courseManagerREQ req) {
+        return CourseManagerService.classCourseNameAndTeacherAndClasslist(req);
+    }
 }
