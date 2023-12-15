@@ -18,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Service
@@ -40,7 +41,25 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
         if (StringUtils.isEmpty(req.getUsername())) {
             req.setUsername(UserUtils.getUsername());
         }
-        IPage<Loan> page = baseMapper.getcourseManagerAndStatusList(req.getPage(), req);
+        IPage<courseManager> page = baseMapper.getcourseManagerAndStatusList(req.getPage(), req);
+        return Result.ok(page);
+    }
+
+    @Override
+    public Result allCourseNameAndTeacherlist(courseManagerREQ req) {
+        if (StringUtils.isEmpty(req.getUsername())) {
+            req.setUsername(UserUtils.getUsername());
+        }
+        IPage<courseManager> page = baseMapper.getallCourseNameAndTeacherlist(req.getPage(), req);
+        return Result.ok(page);
+    }
+
+    @Override
+    public Result classCourseNameAndTeacherlist(courseManagerREQ req) {
+        if (StringUtils.isEmpty(req.getUsername())) {
+            req.setUsername(UserUtils.getUsername());
+        }
+        IPage<courseManager> page = baseMapper.getClassCourseNameAndTeacherlist(req.getPage(), req);
         return Result.ok(page);
     }
 
@@ -55,6 +74,43 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
         BeanUtils.copyProperties(CourseManager, entity);
         entity.setUpdateDate(new Date());
         baseMapper.updateById(entity);
+        return Result.ok();
+    }
+
+    @Override
+    public Result viewById(String id) {
+        ArrayList<courseManager> list = baseMapper.viewById(id);
+        return Result.ok(list);
+    }
+
+    @Override
+    public Result listClassInfoPage(courseManagerREQ req) {
+        if (StringUtils.isEmpty(req.getUsername())) {
+            req.setUsername(UserUtils.getUsername());
+        }
+        IPage<courseManager> page = baseMapper.getClassInfoPage(req.getPage(), req);
+        return Result.ok(page);
+    }
+
+
+    @Override
+    public Result listelectiveCourse(courseManagerREQ req) {
+        if (StringUtils.isEmpty(req.getUsername())) {
+            req.setUsername(UserUtils.getUsername());
+        }
+        IPage<courseManager> page = baseMapper.getelectiveCourse(req.getPage(), req);
+        return Result.ok(page);
+    }
+
+    @Override
+    public Result selectElectiveCourse(String id, String username) {
+        baseMapper.selectElectiveCourse(id, username);
+        return Result.ok();
+    }
+
+    @Override
+    public Result deleteElectiveCourse(String id, String username) {
+        baseMapper.deleteElectiveCourse(id, username);
         return Result.ok();
     }
 

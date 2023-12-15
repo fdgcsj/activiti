@@ -20,14 +20,19 @@ public class courseManager {
     private String id;
     @ApiModelProperty("课程名称")
     private String name;
-    @ApiModelProperty("教师id")
+    @ApiModelProperty("教师用户名")
     private String tchId;
+    @ApiModelProperty("教师姓名")
+    private String nick_name;
     @ApiModelProperty("上课时间")
     private String time;
     @ApiModelProperty("上课教室")
     private String room;
     @ApiModelProperty("班级id")
     private String classId;
+    @TableField(exist = false)
+    @ApiModelProperty("班级名称")
+    private String class_name;
     @ApiModelProperty("创建时间")
     private Date createDate;
     @ApiModelProperty("更新时间")
