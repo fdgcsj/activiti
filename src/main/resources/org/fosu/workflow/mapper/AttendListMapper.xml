@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fosu.workflow.mapper.AttendListMapper">
+    <resultMap id="AttendList"
+               type="org.fosu.workflow.entities.AttendList">
+        <id column="id" property="id"/>
+        <result column="attend_id" property="attend_id"/>
+        <result column="student_name" property="student_name"/>
+        <result column="student_id" property="student_id"/>
+        <result column="status" property="status"/>
+    </resultMap>
+    <select id="getAttendList" resultMap="AttendList">
+        SELECT t1.*
+        FROM mxg_attend_list t1
+        WHERE  t1.attend_id=#{id}
+    </select>
+    <insert id="insertAttendList">
+        INSERT INTO mxg_attend_list(id, attend_id, student_name, student_id, status) VALUES
+        <foreach collection='list' item='item' index='index' separator=','>
+            (#{item.id}, #{item.attend_id}, #{item.student_name}, #{item.student_id}, #{item.status})
+        </foreach>
+    </insert>
+</mapper>

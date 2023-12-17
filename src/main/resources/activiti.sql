@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 16/12/2023 07:42:36
+ Date: 17/12/2023 08:39:48
 */
 
 SET NAMES utf8mb4;
@@ -1126,6 +1126,49 @@ INSERT INTO `mxg_answer` VALUES ('1735667969479454722', '高等数学', '1735665
 INSERT INTO `mxg_answer` VALUES ('1735668035611045889', '高等数学', '1735665444156125185', '内容3', 0, 'admin');
 
 -- ----------------------------
+-- Table structure for mxg_attend
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_attend`;
+CREATE TABLE `mxg_attend`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '考勤表唯一id',
+  `name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '课程名称',
+  `tch_id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '教师用户名',
+  `time` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '上课时间',
+  `student_num` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '所有班级总人数',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_attend
+-- ----------------------------
+INSERT INTO `mxg_attend` VALUES ('1', '高等数学', 'zhangsan', '1-8周 周三 9:40-11:50', '5', '2023-12-17 05:10:15', NULL);
+INSERT INTO `mxg_attend` VALUES ('2', '线性代数', 'zhangsan', '1-8周 周三 8:00-9:25', '10', '2023-12-17 05:31:41', '2023-12-17 05:33:04');
+
+-- ----------------------------
+-- Table structure for mxg_attend_list
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_attend_list`;
+CREATE TABLE `mxg_attend_list`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '考勤情况唯一id',
+  `attend_id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '考勤表id',
+  `student_name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '学生姓名',
+  `student_id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '学生学号',
+  `status` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '考勤状态',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_attend_list
+-- ----------------------------
+INSERT INTO `mxg_attend_list` VALUES ('1', '1', '学生11', '20200310101', '0');
+INSERT INTO `mxg_attend_list` VALUES ('2', '1', '学生12', '20200310102', '0');
+INSERT INTO `mxg_attend_list` VALUES ('3', '1', '学生13', '20200310103', '0');
+INSERT INTO `mxg_attend_list` VALUES ('4', '1', '学生14', '20200310104', '0');
+INSERT INTO `mxg_attend_list` VALUES ('5', '1', '学生15', '20200310105', '0');
+
+-- ----------------------------
 -- Table structure for mxg_business_status
 -- ----------------------------
 DROP TABLE IF EXISTS `mxg_business_status`;
@@ -1141,6 +1184,7 @@ CREATE TABLE `mxg_business_status`  (
 -- ----------------------------
 -- Records of mxg_business_status
 -- ----------------------------
+INSERT INTO `mxg_business_status` VALUES ('1', NULL, 1, '2023-12-17 08:19:46', '2023-12-17 08:20:14');
 INSERT INTO `mxg_business_status` VALUES ('1567433768766676993', '', 0, '2022-09-07 16:45:06', '2022-09-09 10:48:32');
 INSERT INTO `mxg_business_status` VALUES ('1567676953761906689', '', 0, '2022-09-08 08:51:26', '2022-09-09 10:48:30');
 INSERT INTO `mxg_business_status` VALUES ('1567777623949111297', 'b98a3e96-34a0-11ed-a5e5-283a4d3b4979', 3, '2022-09-08 15:31:28', '2023-09-15 04:11:23');
@@ -1162,6 +1206,7 @@ INSERT INTO `mxg_business_status` VALUES ('1702564699482206210', '', 0, '2023-09
 INSERT INTO `mxg_business_status` VALUES ('1702564795787620354', 'a3b0a08d-91af-11ee-9fdf-6e6a773b7536', 2, '2023-09-15 14:07:34', '2023-12-03 15:43:25');
 INSERT INTO `mxg_business_status` VALUES ('1731228195962826753', NULL, 1, '2023-12-03 16:25:41', '2023-12-03 16:25:41');
 INSERT INTO `mxg_business_status` VALUES ('1731230868057403394', NULL, 1, '2023-12-03 16:36:18', '2023-12-03 16:36:18');
+INSERT INTO `mxg_business_status` VALUES ('2', NULL, 1, '2023-12-17 08:11:35', '2023-12-17 08:11:35');
 
 -- ----------------------------
 -- Table structure for mxg_class
@@ -1509,6 +1554,27 @@ INSERT INTO `mxg_student_elective_course` VALUES ('1000003', 'xuesheng11', '学�
 INSERT INTO `mxg_student_elective_course` VALUES ('1000000', 'xuesheng13', '学生13', '20200310103');
 INSERT INTO `mxg_student_elective_course` VALUES ('1000001', 'xuesheng12', '学生12', '20200310102');
 INSERT INTO `mxg_student_elective_course` VALUES ('1000000', 'xuesheng11', '学生11', '20200310101');
+
+-- ----------------------------
+-- Table structure for mxg_student_leave
+-- ----------------------------
+DROP TABLE IF EXISTS `mxg_student_leave`;
+CREATE TABLE `mxg_student_leave`  (
+  `id` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '请假唯一id',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学生用户名',
+  `course_name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '课程名称',
+  `teacher_nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '教师姓名',
+  `time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '上课时间',
+  `reason` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请假理由',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mxg_student_leave
+-- ----------------------------
+INSERT INTO `mxg_student_leave` VALUES ('1', 'xuesheng11', '高等数学', '张三', '9-16周 周四 9:40-11:50', '头痛', '2023-12-17 07:49:28');
+INSERT INTO `mxg_student_leave` VALUES ('2', 'xuesheng12', '线性代数', '张三', '1-8周 周三 8:00-9:25', '不舒服', '2023-12-17 08:09:49');
 
 -- ----------------------------
 -- Table structure for mxg_talk

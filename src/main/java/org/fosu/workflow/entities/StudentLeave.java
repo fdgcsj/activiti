@@ -13,33 +13,23 @@ import org.fosu.workflow.utils.DateUtils;
 import java.util.Date;
 
 @Data
-@ApiModel("课程管理实体类")
-@TableName("mxg_course")
-public class courseManager {
+@ApiModel("请假管理实体类")
+@TableName("mxg_student_leave")
+public class StudentLeave {
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
-    @ApiModelProperty("课程名称")
+    @ApiModelProperty("学生用户名")
     private String name;
-    @ApiModelProperty("教师用户名")
-    private String tchId;
+    @ApiModelProperty("课程名称")
+    private String course_name;
     @ApiModelProperty("教师姓名")
-    private String nick_name;
+    private String teacher_nick_name;
     @ApiModelProperty("上课时间")
     private String time;
-    @ApiModelProperty("上课教室")
-    private String room;
-    @ApiModelProperty("班级id")
-    private String classId;
-    @TableField(exist = false)
-    @ApiModelProperty("班级名称")
-    private String class_name;
-    @TableField(exist = false)
-    @ApiModelProperty("学生id")
-    private String student_id;
+    @ApiModelProperty("请假理由")
+    private String reason;
     @ApiModelProperty("创建时间")
     private Date createDate;
-    @ApiModelProperty("更新时间")
-    private Date updateDate;
     @TableField(exist = false)
     @ApiModelProperty("流程实例id")
     private String processInstanceId;
@@ -61,10 +51,4 @@ public class courseManager {
         return DateUtils.format(createDate);
     }
 
-    public String getUpdateDateStr() {
-        if (updateDate == null) {
-            return "";
-        }
-        return DateUtils.format(updateDate);
-    }
 }

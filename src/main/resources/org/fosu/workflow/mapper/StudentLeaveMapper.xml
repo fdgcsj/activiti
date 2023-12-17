@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fosu.workflow.mapper.StudentLeaveMapper">
+    <resultMap id="StudentLeave"
+               type="org.fosu.workflow.entities.StudentLeave">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="course_name" property="course_name"/>
+        <result column="teacher_nick_name" property="teacher_nick_name"/>
+        <result column="time" property="time"/>
+        <result column="reason" property="reason"/>
+        <result column="create_date" property="createDate"/>
+        <result column="process_instance_id" property="processInstanceId"
+        />
+        <result column="status" property="status"/>
+    </resultMap>
+    <select id="getStudentLeaveList" resultMap="StudentLeave">
+        SELECT t1.*,t2.* FROM mxg_student_leave t1
+        LEFT JOIN mxg_business_status t2
+        ON t1.id = t2.business_key
+        WHERE t1.name = #{req.username}
+        <if test="req.course != null and req.course != ''">
+            AND t1.course_name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.createtime != null and req.createtime != ''">
+            AND t1.create_date LIKE CONCAT('%', #{req.createtime}, '%')
+        </if>
+        ORDER BY t1.create_date DESC
+    </select>
+    <select id="viewById" resultMap="StudentLeave">
+        SELECT t1.* FROM mxg_student_leave t1
+        WHERE t1.id = #{id}
+    </select>
+</mapper>

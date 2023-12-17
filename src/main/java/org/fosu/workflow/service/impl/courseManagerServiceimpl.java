@@ -48,7 +48,7 @@ public class courseManagerServiceimpl extends ServiceImpl<courseManagerMapper, c
 
     public Result getAllStudents(String courseName,String userName) {
         ArrayList<courseManager> studentList = baseMapper.getAllStudents(courseName,userName);
-        return Result.ok(studentList.size());
+        return Result.ok(studentList);
     }
     @Override
     public Result allCourseNameAndTeacherlist(courseManagerREQ req) {
