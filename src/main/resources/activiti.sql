@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 17/12/2023 08:39:48
+ Date: 18/12/2023 14:27:02
 */
 
 SET NAMES utf8mb4;
@@ -1185,6 +1185,8 @@ CREATE TABLE `mxg_business_status`  (
 -- Records of mxg_business_status
 -- ----------------------------
 INSERT INTO `mxg_business_status` VALUES ('1', NULL, 1, '2023-12-17 08:19:46', '2023-12-17 08:20:14');
+INSERT INTO `mxg_business_status` VALUES ('11', NULL, 1, '2023-12-17 08:11:35', '2023-12-17 08:11:35');
+INSERT INTO `mxg_business_status` VALUES ('12', NULL, 1, '2023-12-17 08:11:35', '2023-12-17 08:11:35');
 INSERT INTO `mxg_business_status` VALUES ('1567433768766676993', '', 0, '2022-09-07 16:45:06', '2022-09-09 10:48:32');
 INSERT INTO `mxg_business_status` VALUES ('1567676953761906689', '', 0, '2022-09-08 08:51:26', '2022-09-09 10:48:30');
 INSERT INTO `mxg_business_status` VALUES ('1567777623949111297', 'b98a3e96-34a0-11ed-a5e5-283a4d3b4979', 3, '2022-09-08 15:31:28', '2023-09-15 04:11:23');
@@ -1207,6 +1209,11 @@ INSERT INTO `mxg_business_status` VALUES ('1702564795787620354', 'a3b0a08d-91af-
 INSERT INTO `mxg_business_status` VALUES ('1731228195962826753', NULL, 1, '2023-12-03 16:25:41', '2023-12-03 16:25:41');
 INSERT INTO `mxg_business_status` VALUES ('1731230868057403394', NULL, 1, '2023-12-03 16:36:18', '2023-12-03 16:36:18');
 INSERT INTO `mxg_business_status` VALUES ('2', NULL, 1, '2023-12-17 08:11:35', '2023-12-17 08:11:35');
+INSERT INTO `mxg_business_status` VALUES ('3', NULL, 1, '2023-12-17 08:11:35', '2023-12-17 08:11:35');
+INSERT INTO `mxg_business_status` VALUES ('4', NULL, 1, '2023-12-17 08:11:35', '2023-12-17 08:11:35');
+INSERT INTO `mxg_business_status` VALUES ('5', NULL, 1, '2023-12-17 08:11:35', '2023-12-17 08:11:35');
+INSERT INTO `mxg_business_status` VALUES ('6', NULL, 1, '2023-12-17 08:11:35', '2023-12-17 08:11:35');
+INSERT INTO `mxg_business_status` VALUES ('7', NULL, 1, '2023-12-17 08:11:35', '2023-12-17 08:11:35');
 
 -- ----------------------------
 -- Table structure for mxg_class
@@ -1573,7 +1580,7 @@ CREATE TABLE `mxg_student_leave`  (
 -- ----------------------------
 -- Records of mxg_student_leave
 -- ----------------------------
-INSERT INTO `mxg_student_leave` VALUES ('1', 'xuesheng11', '高等数学', '张三', '9-16周 周四 9:40-11:50', '头痛', '2023-12-17 07:49:28');
+INSERT INTO `mxg_student_leave` VALUES ('11', 'xuesheng11', '高等数学', '张三', '9-16周 周四 9:40-11:50', '头痛', '2023-12-17 07:49:28');
 INSERT INTO `mxg_student_leave` VALUES ('2', 'xuesheng12', '线性代数', '张三', '1-8周 周三 8:00-9:25', '不舒服', '2023-12-17 08:09:49');
 
 -- ----------------------------
