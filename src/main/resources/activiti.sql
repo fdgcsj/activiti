@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 18/12/2023 14:27:02
+ Date: 18/12/2023 20:39:13
 */
 
 SET NAMES utf8mb4;
@@ -1121,9 +1121,9 @@ CREATE TABLE `mxg_answer`  (
 -- ----------------------------
 -- Records of mxg_answer
 -- ----------------------------
-INSERT INTO `mxg_answer` VALUES ('1735667672115884033', '高等数学', '1735665317794328577', '内容1', 0, 'admin');
-INSERT INTO `mxg_answer` VALUES ('1735667969479454722', '高等数学', '1735665403739811842', '内容2', 0, 'admin');
-INSERT INTO `mxg_answer` VALUES ('1735668035611045889', '高等数学', '1735665444156125185', '内容3', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735667672115884033', '2', '1735665317794328577', '内容1', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735667969479454722', '2', '1735665403739811842', '内容2', 0, 'admin');
+INSERT INTO `mxg_answer` VALUES ('1735668035611045889', '2', '1735665444156125185', '内容3', 0, 'admin');
 
 -- ----------------------------
 -- Table structure for mxg_attend
@@ -1277,7 +1277,7 @@ INSERT INTO `mxg_course` VALUES ('1', '高等数学', 'zhangsan', '张三', '1-8
 INSERT INTO `mxg_course` VALUES ('2', '线性代数', 'zhangsan', '张三', '1-8周 周三 8:00-9:25', 'C4-116', '202003102', NULL, NULL);
 INSERT INTO `mxg_course` VALUES ('3', '离散数学', 'lisi', '李四', '9-16周 周三 9:40-11:50', 'C4-216', '202003201', NULL, NULL);
 INSERT INTO `mxg_course` VALUES ('4', '数值分析', 'lisi', '李四', '9-16周 周三 13:30-14:55', 'C4-216', '202003202', NULL, NULL);
-INSERT INTO `mxg_course` VALUES ('5', '线性代数', 'wangwu', '王五', '1-8周 周三 15:10-16:35', 'C4-308', '202003203', NULL, NULL);
+INSERT INTO `mxg_course` VALUES ('5', '量子力学', 'wangwu', '王五', '1-8周 周三 15:10-16:35', 'C4-308', '202003203', NULL, NULL);
 INSERT INTO `mxg_course` VALUES ('6', '高等数学', 'zhangsan', '张三', '9-16周 周四 9:40-11:50', 'C4-116', '202003101', NULL, NULL);
 INSERT INTO `mxg_course` VALUES ('7', '线性代数', 'zhangsan', '张三', '1-8周 周三 8:00-9:25', 'C4-116', '202003101', NULL, NULL);
 
@@ -1410,8 +1410,8 @@ CREATE TABLE `mxg_paper`  (
 -- Records of mxg_paper
 -- ----------------------------
 INSERT INTO `mxg_paper` VALUES ('1', '测试卷1', 1, '线性代数', 'zhangsan', '2023-12-10 00:00:00', '2023-12-16 04:51:16', '2023-12-16 04:51:19');
-INSERT INTO `mxg_paper` VALUES ('1733843482219978753', '试卷3', 1, '线性代数', 'lisi', '2023-12-10 00:00:00', NULL, NULL);
-INSERT INTO `mxg_paper` VALUES ('1733843493997584385', '试卷4', 1, '线性代数', 'wangwu', '2023-12-10 00:00:00', NULL, NULL);
+INSERT INTO `mxg_paper` VALUES ('1733843482219978753', '试卷3', 1, '离散数学', 'lisi', '2023-12-10 00:00:00', NULL, NULL);
+INSERT INTO `mxg_paper` VALUES ('1733843493997584385', '试卷4', 1, '量子力学', 'wangwu', '2023-12-10 00:00:00', NULL, NULL);
 INSERT INTO `mxg_paper` VALUES ('2', '测试卷2', 2, '高等数学', 'zhangsan', '2023-12-10 00:00:00', '2023-12-16 04:51:23', '2023-12-16 04:51:26');
 INSERT INTO `mxg_paper` VALUES ('3', '期末考试', 0, '高等数学', 'zhangsan', '2023-12-16 06:06:00', '2023-12-16 05:50:51', '2023-12-16 05:50:51');
 
@@ -1458,8 +1458,8 @@ CREATE TABLE `mxg_question_choice`  (
 -- ----------------------------
 -- Records of mxg_question_choice
 -- ----------------------------
-INSERT INTO `mxg_question_choice` VALUES ('1735665317794328577', '高等数学', '测试选择题1', '选项A', '正确选项B', '选项C', '选项D', 2, 5, '2023-12-15 00:00:00');
-INSERT INTO `mxg_question_choice` VALUES ('1735665403739811842', '高等数学', '测试选择题2', '正确选项A', '选项B', '选项C', '选项D', 1, 5, '2023-12-15 00:00:00');
+INSERT INTO `mxg_question_choice` VALUES ('1735665317794328577', '2', '测试选择题1', '选项A', '正确选项B', '选项C', '选项D', 2, 5, '2023-12-15 00:00:00');
+INSERT INTO `mxg_question_choice` VALUES ('1735665403739811842', '2', '测试选择题2', '正确选项A', '选项B', '选项C', '选项D', 1, 5, '2023-12-15 00:00:00');
 INSERT INTO `mxg_question_choice` VALUES ('1735665444156125185', '高等数学', '测试选择题3', '选项A', '选项B', '选项C', '正确选项D', 4, 5, '2023-12-15 00:00:00');
 
 -- ----------------------------
