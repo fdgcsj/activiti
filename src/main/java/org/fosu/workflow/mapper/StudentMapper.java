@@ -15,4 +15,6 @@ public interface StudentMapper extends BaseMapper<Student> {
 
     ArrayList<Student> getStudentsByClass(String classId);
 
+    ArrayList<Student> isStudent(String username);
+
 }

@@ -7,4 +7,6 @@ import org.fosu.workflow.utils.Result;
 
 public interface StudentService extends IService<Student> {
     Result getStudentsByClass(String classId);
+
+    Boolean isStudent(String username);
 }

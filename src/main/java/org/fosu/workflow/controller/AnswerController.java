@@ -12,6 +12,7 @@ import org.fosu.workflow.service.ChoiceQuestionService;
 import org.fosu.workflow.service.PaperService;
 import org.fosu.workflow.service.StudentService;
 import org.fosu.workflow.utils.Result;
+import org.fosu.workflow.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +47,7 @@ public class AnswerController {
     @ApiOperation("更新答题详情信息")
     @PutMapping
     public Result update(@RequestBody Answer answer) {
-        if(isTimeEnd(answer))
+        if(isTimeEnd(answer)&&studentService.isStudent(UserUtils.getUsername()))
             return Result.error("试卷已经截止,学生不可再修改，仅允许老师修改");
         UpdateScore(answer);
         return answerService.update(answer);

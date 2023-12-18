@@ -14,4 +14,8 @@
     <select id="getStudentsByClass" resultMap="getStudentsByClass">
         SELECT * FROM mxg_student WHERE class = #{classId}
     </select>
+    <select id="isStudent" resultMap="getStudentsByClass">
+        SELECT * FROM mxg_student t1
+        WHERE t1.name=#{username}
+    </select>
 </mapper>

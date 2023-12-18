@@ -19,4 +19,16 @@ public class StudentServiceimpl extends ServiceImpl<StudentMapper, Student> impl
         ArrayList<Student> studentList=baseMapper.getStudentsByClass(classId);
         return Result.ok(studentList);
     };
+    public Boolean isStudent(String username){
+        ArrayList<Student> studentList=baseMapper.isStudent(username);
+        boolean isstudent=false;
+        if (studentList.size()!=0){
+            isstudent=true;
+        }
+        System.out.println(username);
+        System.out.println(studentList);
+        System.out.println(studentList.size());
+        System.out.println(isstudent);
+        return isstudent;
+    };
 }
