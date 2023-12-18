@@ -25,10 +25,6 @@ public class StudentServiceimpl extends ServiceImpl<StudentMapper, Student> impl
         if (studentList.size()!=0){
             isstudent=true;
         }
-        System.out.println(username);
-        System.out.println(studentList);
-        System.out.println(studentList.size());
-        System.out.println(isstudent);
         return isstudent;
     };
 }
