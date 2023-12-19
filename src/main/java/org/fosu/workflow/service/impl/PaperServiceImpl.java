@@ -7,10 +7,12 @@ import org.fosu.workflow.entities.Paper;
 import org.fosu.workflow.entities.Speak;
 import org.fosu.workflow.mapper.PaperMapper;
 import org.fosu.workflow.req.PaperREQ;
+import org.fosu.workflow.service.ChoiceQuestionService;
 import org.fosu.workflow.service.PaperService;
 import org.fosu.workflow.utils.Result;
 import org.fosu.workflow.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,8 @@ import java.util.Date;
 
 @Service
 public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper> implements PaperService {
+    @Autowired
+    ChoiceQuestionService choiceService;
     @Override
     @Transactional
     public Result add(Paper paper) {
@@ -51,5 +55,12 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper> implements
         BeanUtils.copyProperties(paper, entity);
         baseMapper.updateById(entity);
         return Result.ok();
+    }
+
+    @Override
+    public int getTotalScore(String id) {
+        int total = 0;
+        total += choiceService.getTotalScore(id);
+        return total;
     }
 }

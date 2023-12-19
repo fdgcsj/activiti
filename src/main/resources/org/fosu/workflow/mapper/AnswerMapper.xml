@@ -11,11 +11,23 @@
         <result column="score" property="score"/>
         <result column="creator" property="creator"/>
     </resultMap>
+    <resultMap id="AnswerScore" type="org.fosu.workflow.entities.Answer">
+        <id column="id" property="id"/>
+        <result column="paper_id" property="paperId"/>
+        <result column="score" property="score"/>
+        <result column="creator" property="creator"/>
+    </resultMap>
     <select id="getAnswerList" resultMap="AnswerList">
         SELECT *
         FROM mxg_answer
         WHERE paper_id = #{req.paperId}
         AND question_id = #{req.questionId}
         AND creator = #{req.creator}
+    </select>
+    <select id="getScore" resultMap="AnswerScore">
+        SELECT id,paper_id,sum(score) as score,creator
+        FROM mxg_answer
+        WHERE paper_id = #{req.paperId}
+          AND creator = #{req.creator}
     </select>
 </mapper>

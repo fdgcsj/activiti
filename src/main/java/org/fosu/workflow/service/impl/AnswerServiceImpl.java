@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.fosu.workflow.entities.Answer;
+import org.fosu.workflow.entities.ChoiceQuestion;
 import org.fosu.workflow.entities.Paper;
 import org.fosu.workflow.mapper.AnswerMapper;
 import org.fosu.workflow.req.AnswerREQ;
@@ -15,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Service
@@ -45,5 +47,17 @@ public class AnswerServiceImpl extends ServiceImpl<AnswerMapper, Answer> impleme
         BeanUtils.copyProperties(answer, entity);
         baseMapper.updateById(entity);
         return Result.ok();
+    }
+
+    @Override
+    public int getScore(AnswerREQ req) {
+        ArrayList<Answer> list = baseMapper.getScore(req);
+        if(list.size() > 0)
+        {
+            Answer answer = list.get(0);
+            if(answer != null)
+                return answer.getScore();
+        }
+        return 0;
     }
 }

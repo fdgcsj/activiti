@@ -10,4 +10,5 @@ public interface ChoiceQuestionService extends IService<ChoiceQuestion> {
     Result add(ChoiceQuestion question);
     Result listPage(QuestionREQ req);
     Result update(ChoiceQuestion question);
+    int getTotalScore(String paperId);
 }

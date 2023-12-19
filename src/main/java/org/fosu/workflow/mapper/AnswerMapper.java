@@ -8,6 +8,9 @@ import org.fosu.workflow.entities.Paper;
 import org.fosu.workflow.req.AnswerREQ;
 import org.fosu.workflow.req.PaperREQ;
 
+import java.util.ArrayList;
+
 public interface AnswerMapper extends BaseMapper<Answer> {
     IPage<Answer> getAnswerList(IPage page, @Param("req") AnswerREQ req);
+    ArrayList<Answer> getScore(@Param("req") AnswerREQ req);
 }

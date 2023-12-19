@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Service
@@ -45,5 +46,17 @@ public class ChoiceQuestionServiceImpl extends ServiceImpl<ChoiceQuestionMapper,
         BeanUtils.copyProperties(question, entity);
         baseMapper.updateById(entity);
         return Result.ok();
+    }
+
+    @Override
+    public int getTotalScore(String paperId) {
+        ArrayList<ChoiceQuestion> list = baseMapper.getTotalScore(paperId);
+        if(list.size() > 0)
+        {
+            ChoiceQuestion que = list.get(0);
+            if(que != null)
+                return que.getScore();
+        }
+        return 0;
     }
 }

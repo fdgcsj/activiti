@@ -15,10 +15,20 @@
         <result column="score" property="score"/>
         <result column="create_date" property="createDate"/>
     </resultMap>
+    <resultMap id="ChoiceQuestionTotalScore" type="org.fosu.workflow.entities.ChoiceQuestion">
+        <id column="id" property="id"/>
+        <result column="paper_id" property="paperId"/>
+        <result column="score" property="score"/>
+    </resultMap>
     <select id="getQuestionList" resultMap="ChoiceQuestionList">
         SELECT *
         FROM mxg_question_choice
         WHERE paper_id = #{req.paperId}
         ORDER BY create_date DESC
+    </select>
+    <select id="getTotalScore" resultMap="ChoiceQuestionTotalScore">
+        SELECT id,paper_id,sum(score) as score
+        FROM mxg_question_choice
+        WHERE paper_id = #{paperId}
     </select>
 </mapper>

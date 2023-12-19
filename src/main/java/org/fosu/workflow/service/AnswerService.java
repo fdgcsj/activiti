@@ -11,4 +11,5 @@ public interface AnswerService extends IService<Answer> {
     Result add(Answer answer);
     Result listPage(AnswerREQ req);
     Result update(Answer answer);
+    int getScore(AnswerREQ req);
 }

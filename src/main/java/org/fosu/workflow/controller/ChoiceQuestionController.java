@@ -40,4 +40,9 @@ public class ChoiceQuestionController {
         ChoiceQuestion entity = choiceQuestionService.getById(id);
         return Result.ok(entity);
     }
+    @ApiOperation("查询某试卷的选择题总分")
+    @GetMapping("/total/{id}")
+    public Result total(@PathVariable String id) {
+        return Result.ok(choiceQuestionService.getTotalScore(id));
+    }
 }

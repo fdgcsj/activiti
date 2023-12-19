@@ -62,18 +62,25 @@ public class AnswerController {
     {
         if(answer == null)
             return;
-        int intAnswer = 0;
+        int intAnswer = -1;
         try
         {
             intAnswer = Integer.parseInt(answer.getAnswer());
         }
         catch (Exception e) {
-            e.printStackTrace();
+            intAnswer = -1;
         }
         ChoiceQuestion choiceQuestion = choiceService.getById(answer.getQuestionId());//判断题自动批改
-        if(choiceQuestion != null && intAnswer == choiceQuestion.getAnswer())
+        if(choiceQuestion != null)
         {
-            answer.setScore(choiceQuestion.getScore());
+            if(intAnswer == choiceQuestion.getAnswer())
+                answer.setScore(choiceQuestion.getScore());
+            else
+                answer.setScore(0);
+        }
+        else
+        {
+            //判断题批改
         }
     }
     boolean isTimeEnd(Answer answer)
@@ -89,5 +96,10 @@ public class AnswerController {
             }
         }
         return true;
+    }
+    @ApiOperation("获取某人在某卷的得分")
+    @GetMapping("/score")
+    public Result getScore(@RequestBody AnswerREQ req) {
+        return Result.ok(answerService.getScore(req));
     }
 }
