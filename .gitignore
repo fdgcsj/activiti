@@ -33,3 +33,4 @@ build/
 .vscode/
 
 .tool-versions
+/_mysql_data/
