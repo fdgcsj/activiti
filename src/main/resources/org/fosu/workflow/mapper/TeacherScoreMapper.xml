@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fosu.workflow.mapper.TeacherScoreMapper">
+    <resultMap id="listPage"
+               type="org.fosu.workflow.entities.TeacherScore">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="tch_id" property="tch_id"/>
+        <result column="nick_name" property="nick_name"/>
+        <result column="score1" property="score1"/>
+        <result column="score2" property="score2"/>
+        <result column="score3" property="score3"/>
+        <result column="score4" property="score4"/>
+        <result column="average_score" property="average_score"/>
+    </resultMap>
+    <select id="listPage" resultMap="listPage">
+        SELECT name, nick_name, ROUND(AVG(score1 + score2 + score3 + score4), 2) as average_score
+        FROM mxg_teacher_score t1
+        where 1=1
+        <if test="req.course != null and req.course != ''">
+            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+        GROUP BY name, nick_name
+    </select>
+</mapper>
+

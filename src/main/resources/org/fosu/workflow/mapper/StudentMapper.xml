@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fosu.workflow.mapper.StudentMapper">
+    <resultMap id="getStudentsByClass"
+               type="org.fosu.workflow.entities.Student">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="student_id" property="student_id"/>
+        <result column="class" property="classid"/>
+        <result column="major" property="major"/>
+        <result column="nick_name" property="nick_name"/>
+    </resultMap>
+    <select id="getStudentsByClass" resultMap="getStudentsByClass">
+        SELECT * FROM mxg_student WHERE class = #{classId}
+    </select>
+    <select id="isStudent" resultMap="getStudentsByClass">
+        SELECT * FROM mxg_student t1
+        WHERE t1.name=#{username}
+    </select>
+</mapper>

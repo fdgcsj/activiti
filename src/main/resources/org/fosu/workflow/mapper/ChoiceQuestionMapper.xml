@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fosu.workflow.mapper.ChoiceQuestionMapper">
+
+    <resultMap id="ChoiceQuestionList" type="org.fosu.workflow.entities.ChoiceQuestion">
+        <id column="id" property="id"/>
+        <result column="paper_id" property="paperId"/>
+        <result column="description" property="description"/>
+        <result column="choice_a" property="choiceA"/>
+        <result column="choice_b" property="choiceB"/>
+        <result column="choice_c" property="choiceC"/>
+        <result column="choice_d" property="choiceD"/>
+        <result column="answer" property="answer"/>
+        <result column="score" property="score"/>
+        <result column="create_date" property="createDate"/>
+    </resultMap>
+    <resultMap id="ChoiceQuestionTotalScore" type="org.fosu.workflow.entities.ChoiceQuestion">
+        <id column="id" property="id"/>
+        <result column="paper_id" property="paperId"/>
+        <result column="score" property="score"/>
+    </resultMap>
+    <select id="getQuestionList" resultMap="ChoiceQuestionList">
+        SELECT *
+        FROM mxg_question_choice
+        WHERE paper_id = #{req.paperId}
+        ORDER BY create_date DESC
+    </select>
+    <select id="getTotalScore" resultMap="ChoiceQuestionTotalScore">
+        SELECT id,paper_id,sum(score) as score
+        FROM mxg_question_choice
+        WHERE paper_id = #{paperId}
+    </select>
+</mapper>

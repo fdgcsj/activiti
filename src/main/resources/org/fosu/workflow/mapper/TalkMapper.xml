@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fosu.workflow.mapper.TalkMapper">
+
+    <resultMap id="TalkList" type="org.fosu.workflow.entities.Talk">
+        <id column="id" property="id"/>
+        <result column="course_id" property="courseId"/>
+        <result column="title" property="title"/>
+        <result column="text" property="text"/>
+        <result column="creator" property="creator"/>
+        <result column="create_date" property="createDate"/>
+    </resultMap>
+    <select id="getTalkList" resultMap="TalkList">
+        SELECT *
+        FROM mxg_talk
+        WHERE course_id = #{req.courseId}
+        ORDER BY create_date DESC
+    </select>
+</mapper>

@@ -7,26 +7,145 @@
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="tch_id" property="tchId"/>
+        <result column="nick_name" property="nick_name"/>
         <result column="time" property="time"/>
         <result column="room" property="room"/>
         <result column="class_id" property="classId"/>
+        <result column="class_name" property="class_name"/>
+        <result column="student_id" property="student_id"/>
         <result column="create_date" property="createDate"/>
         <result column="update_date" property="updateDate"/>
         <result column="process_instance_id" property="processInstanceId"
         />
         <result column="status" property="status"/>
     </resultMap>
+    <select id="getAllStudents" resultMap="courseManagerAndStatusList">
+        SELECT t1.name,t1.tch_id,t1.class_id,t2.nick_name as nick_name,t2.student_id as student_id
+        FROM mxg_course t1
+        LEFT JOIN mxg_student t2
+        ON t1.class_id=t2.class
+        WHERE t1.tch_id = #{userName} AND t1.name = #{courseName}
+        GROUP BY t1.name,t1.tch_id,t1.class_id,t2.nick_name,t2.student_id
+    </select>
     <select id="getcourseManagerAndStatusList" resultMap="courseManagerAndStatusList">
-        SELECT t1.*, t2.* FROM mxg_course t1
+        SELECT t1.id,t1.name,t1.tch_id,t1.nick_name,t1.time,t1.room,t1.class_id,t2.*,t3.name as class_name FROM mxg_course t1
         LEFT JOIN mxg_business_status t2
         ON t1.id = t2.business_key
+        LEFT JOIN mxg_class t3
+        ON t1.class_id = t3.id
         WHERE t1.tch_id = #{req.username}
         <if test="req.course != null and req.course != ''">
             AND t1.name LIKE CONCAT('%', #{req.course}, '%')
         </if>
         <if test="req.teacher != null and req.teacher != ''">
-            AND t1.tch_id LIKE CONCAT('%', #{req.teacher}, '%')
+            AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
         </if>
         ORDER BY t1.create_date DESC
+    </select>
+    <select id="getallCourseNameAndTeacherlist" resultMap="courseManagerAndStatusList">
+        SELECT MIN(id) as id,name, nick_name
+        FROM mxg_course
+        WHERE 1=1
+        <if test="req.course != null and req.course != ''">
+            AND name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+        GROUP BY name, nick_name
+    </select>
+    <select id="getClassCourseNameAndTeacherlist" resultMap="courseManagerAndStatusList">
+        SELECT MIN(t1.id) as id,t1.name, t1.nick_name
+        FROM mxg_course t1
+        LEFT JOIN mxg_student t4
+        ON t4.class = t1.class_id
+        WHERE t4.name=#{req.username}
+        <if test="req.course != null and req.course != ''">
+            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+        GROUP BY name, nick_name
+    </select>
+    <select id="getClassInfoPage" resultMap="courseManagerAndStatusList">
+        SELECT t1.id,t1.name,t1.tch_id,t1.nick_name,t1.time,t1.room,t3.id as class_id FROM mxg_course t1
+        LEFT JOIN mxg_class t3
+        ON t1.class_id = t3.id
+        LEFT JOIN mxg_student t4
+        ON t4.class = t3.id
+        WHERE t4.name=#{req.username}
+        <if test="req.course != null and req.course != ''">
+            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+        UNION ALL
+        SELECT t6.*,t4.class as class_id FROM mxg_student_elective_course t5
+        LEFT JOIN mxg_elective_course t6
+        ON t5.id = t6.id
+        LEFT JOIN mxg_student t4
+        ON t4.name =t5.name
+        WHERE t5.name=#{req.username}
+        <if test="req.course != null and req.course != ''">
+            AND t6.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t6.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+    </select>
+    <select id="getelectiveCourse" resultMap="courseManagerAndStatusList">
+        SELECT * from mxg_elective_course t1
+        where 1=1
+        <if test="req.course != null and req.course != ''">
+            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+    </select>
+    <select id="viewById" resultMap="courseManagerAndStatusList">
+        SELECT t1.id,t1.name,t1.tch_id,t1.nick_name,t1.time,t1.room,t1.class_id,t2.*,t3.name as class_name FROM mxg_course t1
+        LEFT JOIN mxg_business_status t2
+        ON t1.id = t2.business_key
+        LEFT JOIN mxg_class t3
+        ON t1.class_id = t3.id
+        WHERE t1.id = #{id}
+        ORDER BY t1.create_date DESC
+    </select>
+    <insert id="selectElectiveCourse">
+        INSERT INTO mxg_student_elective_course (id, name, nick_name,student_id)
+        SELECT #{id}, #{username}, (SELECT nick_name FROM mxg_student WHERE name = #{username}),(SELECT student_id FROM mxg_student WHERE name = #{username})
+    </insert>
+    <delete id="deleteElectiveCourse">
+        DELETE FROM mxg_student_elective_course
+        WHERE id = #{id} AND name = #{username}
+    </delete>
+    <select id="allCourseNameAndTeacherAndClasslist" resultMap="courseManagerAndStatusList">
+        SELECT MIN(id) as id,name, nick_name,class_id
+        FROM mxg_course
+        WHERE 1=1
+        <if test="req.course != null and req.course != ''">
+            AND name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+        GROUP BY name, nick_name,class_id
+    </select>
+    <select id="classCourseNameAndTeacherAndClasslist" resultMap="courseManagerAndStatusList">
+        SELECT MIN(t1.id) as id,t1.name, t1.nick_name,class_id
+        FROM mxg_course t1
+        LEFT JOIN mxg_student t4
+        ON t4.class = t1.class_id
+        WHERE t4.name=#{req.username}
+        <if test="req.course != null and req.course != ''">
+            AND t1.name LIKE CONCAT('%', #{req.course}, '%')
+        </if>
+        <if test="req.teacher != null and req.teacher != ''">
+            AND t1.nick_name LIKE CONCAT('%', #{req.teacher}, '%')
+        </if>
+        GROUP BY name, nick_name,class_id
     </select>
 </mapper>
