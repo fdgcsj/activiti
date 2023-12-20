@@ -1,15 +1,12 @@
 package org.fosu.workflow.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.fosu.workflow.entities.Student;
 import org.fosu.workflow.entities.courseManager;
 import org.fosu.workflow.req.courseManagerREQ;
 import org.fosu.workflow.service.ClassService;
 import org.fosu.workflow.service.StudentService;
 import org.fosu.workflow.service.courseManagerService;
-import org.fosu.workflow.utils.DateUtils;
 import org.fosu.workflow.utils.Result;
 import org.fosu.workflow.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,5 +120,11 @@ public class courseManagerController {
     @PostMapping("/classCourseNameAndTeacherAndClasslist")
     public Result classCourseNameAndTeacherAndClasslist(@RequestBody courseManagerREQ req) {
         return CourseManagerService.classCourseNameAndTeacherAndClasslist(req);
+    }
+
+    @ApiOperation("判断用户是否为学生")
+    @PostMapping("/isStudent")
+    public Boolean isStudent() {
+        return studentService.isStudent(UserUtils.getUsername());
     }
 }
