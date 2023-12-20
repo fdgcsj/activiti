@@ -39,7 +39,7 @@ module.exports = {
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
         // /dev-api
-        target: "4.194.16.157:9090", // 'http://localhost:9090/workflow',
+        target: "4.194.16.157:9090/workflow", // 'http://localhost:9090/workflow',
         changeOrigin: true,
         pathRewrite: {
           ["^" + process.env.VUE_APP_BASE_API]: "", // /dev-api/test
